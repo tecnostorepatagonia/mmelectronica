@@ -498,7 +498,6 @@
     const SUPABASE_URL = 'https://pjwtyakemdsytixpalzr.supabase.co';
     const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_L8JVVwkZWCL8OXYA3XGysw_gT0cYtaI';
     const MM_WHATSAPP = "5490000000000";
-    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
     let latestProducts = [];
 
     function escapeHTML(value = "") {
@@ -543,18 +542,28 @@
       const grid = document.getElementById('latest-products-grid');
       if(grid) grid.innerHTML = `<div class="latest-empty"><div class="latest-empty-inner"><div class="latest-empty-icon" aria-hidden="true"><div class="latest-empty-phone"></div></div><h3>Cargando equipos...</h3><p>Buscando las publicaciones más recientes.</p></div></div>`;
       try {
-        const {data,error} = await db
-          .from('productos_mm')
-          .select('*')
-          .in('categoria',['sellados','usados'])
-          .eq('activo',true)
-          .order('created_at',{ascending:false})
-          .limit(4);
-        if(error) throw error;
-        latestProducts = data || [];
+        const params = new URLSearchParams();
+        params.set('select', '*');
+        params.set('activo', 'eq.true');
+        params.set('order', 'created_at.desc');
+        params.set('limit', '12');
+
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/productos_mm?${params.toString()}`, {
+          method: 'GET',
+          headers: {
+            'apikey': SUPABASE_PUBLISHABLE_KEY,
+            'Accept': 'application/json'
+          },
+          cache: 'no-store'
+        });
+
+        const raw = await response.text();
+        if(!response.ok) throw new Error(`Supabase ${response.status}: ${raw || response.statusText}`);
+        const data = raw ? JSON.parse(raw) : [];
+        latestProducts = (data || []).filter(p => p.categoria === 'sellados' || p.categoria === 'usados').slice(0,4);
         renderLatestProducts();
       } catch(err) {
-        console.error(err);
+        console.error('Error cargando últimos equipos:', err);
         if(grid) grid.innerHTML = `<div class="latest-empty"><div class="latest-empty-inner"><div class="latest-empty-icon">!</div><h3>No pudimos cargar los equipos.</h3><p>${escapeHTML(err.message || err)}</p></div></div>`;
       }
     }
