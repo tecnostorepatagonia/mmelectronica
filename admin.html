@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM Electrónica | Panel de Administración</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#173a7d;
+  --blue-2:#214d9f;
+  --blue-3:#0c2a63;
+  --purple:#a865ba;
+  --purple-2:#c28bd0;
+  --bg:#081b42;
+  --panel:#102b62;
+  --panel-2:#153873;
+  --line:rgba(255,255,255,.10);
+  --text:#f7f9ff;
+  --muted:#b9c7e6;
+  --danger:#ef4444;
+  --success:#22c55e;
+  --warning:#f59e0b;
+  --shadow:0 20px 60px rgba(0,0,0,.22);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:radial-gradient(circle at top right,rgba(168,101,186,.18),transparent 25%),linear-gradient(135deg,#071a40 0%,#103678 50%,#17489a 100%);color:var(--text);min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+.hidden{display:none!important}
+
+/* LOGIN */
+.login-screen{min-height:100vh;display:grid;place-items:center;padding:22px}
+.login-card{width:min(460px,100%);background:rgba(9,30,70,.82);border:1px solid var(--line);border-radius:30px;padding:34px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+.login-logo{display:flex;justify-content:center;margin-bottom:18px}
+.login-logo img{width:190px;max-height:120px;object-fit:contain}
+.login-card h1{margin:0;text-align:center;font-size:30px;letter-spacing:-.04em}
+.login-card p{margin:8px 0 26px;text-align:center;color:var(--muted);line-height:1.6}
+
+/* LAYOUT */
+.admin{min-height:100vh}
+.topbar{position:sticky;top:0;z-index:30;background:rgba(8,27,66,.93);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}
+.topbar-inner{max-width:1440px;margin:auto;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand img{width:150px;height:74px;object-fit:contain;object-position:left center}
+.top-actions{display:flex;align-items:center;gap:10px}
+.user-email{font-size:13px;color:var(--muted);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.container{max-width:1440px;margin:auto;padding:28px 22px 70px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}
+.page-head h1{margin:0;font-size:clamp(28px,4vw,44px);letter-spacing:-.045em}
+.page-head p{margin:8px 0 0;color:var(--muted)}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.stat{background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 12px 30px rgba(0,0,0,.10)}
+.stat span{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#c7d5f1}
+.stat strong{display:block;font-size:30px;margin-top:8px}
+
+.panel{background:rgba(9,30,70,.74);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
+.panel-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:16px}
+.panel-head h2{margin:0;font-size:22px}
+.panel-head p{margin:5px 0 0;color:var(--muted);font-size:14px}
+.panel-body{padding:24px}
+
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.form-grid .full{grid-column:1/-1}
+.field label{display:block;font-size:13px;font-weight:800;color:#d8e2f7;margin:0 0 8px}
+.field small{display:block;color:#91a6cf;margin-top:7px;font-size:12px}
+.input,.select,.textarea{width:100%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.075);color:white;border-radius:15px;padding:13px 14px;outline:none;transition:.2s}
+.input:focus,.select:focus,.textarea:focus{border-color:#c28bd0;box-shadow:0 0 0 3px rgba(194,139,208,.13)}
+.select option{color:#111827;background:white}
+.textarea{min-height:120px;resize:vertical}
+
+.destination{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.destination button{border:1px solid var(--line);border-radius:16px;padding:15px 12px;background:rgba(255,255,255,.06);color:#d9e4fa;font-weight:800;transition:.2s}
+.destination button:hover{background:rgba(255,255,255,.10)}
+.destination button.active{background:linear-gradient(135deg,#fff,#e9edff);color:#173a7d;border-color:transparent;box-shadow:0 10px 24px rgba(0,0,0,.14)}
+
+.image-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.image-box{border:1px dashed rgba(255,255,255,.24);border-radius:18px;padding:12px;background:rgba(255,255,255,.035)}
+.image-box label{display:block;font-size:12px;font-weight:800;margin-bottom:8px;color:#d7e1f4}
+.image-box input{width:100%;font-size:12px;color:var(--muted)}
+.preview{height:150px;border-radius:13px;background:rgba(255,255,255,.05);margin-top:10px;display:grid;place-items:center;overflow:hidden;color:#8297c3;font-size:12px;text-align:center;padding:8px}
+.preview img{width:100%;height:100%;object-fit:contain}
+
+.form-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{border:0;border-radius:14px;min-height:46px;padding:0 18px;font-weight:850;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#7d4e9d);color:white;box-shadow:0 12px 28px rgba(101,53,126,.28)}
+.btn-secondary{background:rgba(255,255,255,.08);color:white;border:1px solid var(--line)}
+.btn-danger{background:rgba(239,68,68,.13);color:#fecaca;border:1px solid rgba(239,68,68,.25)}
+.btn-success{background:rgba(34,197,94,.13);color:#bbf7d0;border:1px solid rgba(34,197,94,.25)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.toolbar .input,.toolbar .select{width:auto;min-width:180px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1040px}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#9fb2d6;text-align:left;padding:13px 12px;border-bottom:1px solid var(--line)}
+td{padding:14px 12px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:middle;font-size:14px}
+tbody tr:hover{background:rgba(255,255,255,.035)}
+.thumb{width:56px;height:56px;border-radius:12px;background:white;object-fit:contain}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;background:rgba(255,255,255,.08);color:#dbe5f7}
+.badge.sellados{background:rgba(59,130,246,.16);color:#bfdbfe}
+.badge.usados{background:rgba(245,158,11,.14);color:#fde68a}
+.badge.accesorios{background:rgba(168,101,186,.16);color:#f0c9fb}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}
+.icon-btn{border:1px solid var(--line);background:rgba(255,255,255,.06);color:white;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:800}
+.icon-btn.danger{color:#fecaca;border-color:rgba(239,68,68,.25)}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800}.status::before{content:"";width:8px;height:8px;border-radius:50%;background:#ef4444}.status.on::before{background:#22c55e}
+.empty{text-align:center;padding:42px 20px;color:var(--muted)}
+
+.notice{position:fixed;right:18px;bottom:18px;z-index:100;width:min(420px,calc(100% - 36px));border-radius:16px;padding:15px 17px;box-shadow:var(--shadow);font-size:14px;font-weight:700;display:none}
+.notice.show{display:block;animation:in .25s ease}.notice.ok{background:#052e1b;border:1px solid rgba(34,197,94,.35);color:#bbf7d0}.notice.error{background:#3b0b12;border:1px solid rgba(239,68,68,.35);color:#fecaca}
+@keyframes in{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.config-warning{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.28);color:#fde68a;border-radius:16px;padding:14px 16px;margin-bottom:18px;line-height:1.55;font-size:13px}
+
+@media(max-width:980px){.stats{grid-template-columns:repeat(2,1fr)}.image-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.topbar-inner{padding:8px 13px}.brand img{width:118px;height:62px}.user-email{display:none}.container{padding:20px 13px 55px}.page-head{align-items:flex-start;flex-direction:column}.stats{grid-template-columns:1fr 1fr;gap:9px}.stat{padding:15px}.stat strong{font-size:24px}.panel-head,.panel-body{padding:17px}.form-grid{grid-template-columns:1fr}.destination{grid-template-columns:1fr}.image-grid{grid-template-columns:1fr 1fr}.toolbar{align-items:stretch}.toolbar .input,.toolbar .select{width:100%;min-width:0}.top-actions .btn{padding:0 12px}.login-card{padding:26px 20px}}
+@media(max-width:430px){.image-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<section id="login-screen" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo"><img src="img/logomm.png" alt="MM Electrónica"></div>
+    <h1>Panel de Administración</h1>
+    <p>Ingresá con el usuario creado en Supabase para publicar y administrar productos.</p>
+    <div id="login-config-warning" class="config-warning hidden">Primero configurá <b>SUPABASE_URL</b> y <b>SUPABASE_PUBLISHABLE_KEY</b> al final de este archivo.</div>
+    <form id="login-form">
+      <div class="field" style="margin-bottom:14px"><label>Email</label><input id="login-email" class="input" type="email" required placeholder="admin@mmelectronica.com"></div>
+      <div class="field" style="margin-bottom:18px"><label>Contraseña</label><input id="login-password" class="input" type="password" required placeholder="••••••••"></div>
+      <button id="login-btn" class="btn btn-primary" style="width:100%" type="submit">Ingresar</button>
+    </form>
+  </div>
+</section>
+
+<div id="admin" class="admin hidden">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html"><img src="img/logomm.png" alt="MM Electrónica"></a>
+      <div class="top-actions">
+        <span id="user-email" class="user-email"></span>
+        <a class="btn btn-secondary" href="index.html" target="_blank">Ver web</a>
+        <button class="btn btn-danger" id="logout-btn">Salir</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Productos MM Electrónica</h1>
+        <p>Cargá teléfonos sellados, usados y accesorios desde un solo panel.</p>
+      </div>
+    </div>
+
+    <div id="config-warning" class="config-warning hidden">Falta configurar Supabase. Pegá tu <b>Project URL</b> y tu <b>Publishable key</b> en las constantes del final del archivo.</div>
+
+    <section class="stats">
+      <div class="stat"><span>Total productos</span><strong id="stat-total">0</strong></div>
+      <div class="stat"><span>Sellados</span><strong id="stat-sellados">0</strong></div>
+      <div class="stat"><span>Usados</span><strong id="stat-usados">0</strong></div>
+      <div class="stat"><span>Accesorios</span><strong id="stat-accesorios">0</strong></div>
+    </section>
+
+    <section class="panel" id="form-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="form-title">Nuevo producto</h2>
+          <p>Elegí primero dónde se publicará el producto.</p>
+        </div>
+      </div>
+      <div class="panel-body">
+        <form id="product-form">
+          <div class="field full" style="margin-bottom:18px">
+            <label>¿Dónde se va a publicar?</label>
+            <div class="destination" id="destination-buttons">
+              <button type="button" data-value="sellados" class="active">Equipos Sellados</button>
+              <button type="button" data-value="usados">Equipos Usados</button>
+              <button type="button" data-value="accesorios">Accesorios</button>
+            </div>
+            <input type="hidden" id="categoria" value="sellados">
+          </div>
+
+          <div id="phone-fields" class="form-grid">
+            <div class="field">
+              <label>Serie *</label>
+              <select id="serie" class="select">
+                <option value="">Elegir serie</option>
+                <option>Series 12</option><option>Series 13</option><option>Series 14</option><option>Series 15</option><option>Series 16</option><option>Series 17</option><option>Series 18</option>
+              </select>
+            </div>
+            <div class="field"><label>Modelo *</label><input id="modelo" class="input" placeholder="Ej: iPhone 15 Pro Max"></div>
+            <div class="field">
+              <label>Memoria *</label>
+              <select id="memoria" class="select">
+                <option value="">Elegir memoria</option>
+                <option>64 GB</option><option>128 GB</option><option>256 GB</option><option>512 GB</option><option>1 TB</option>
+              </select>
+            </div>
+            <div class="field"><label>Color *</label><input id="color" class="input" placeholder="Ej: Titanio Natural"></div>
+            <div class="field"><label>Estado de batería</label><input id="estado_bateria" class="input" type="number" min="0" max="100" placeholder="100"><small>Si queda vacío se guarda 100%.</small></div>
+            <div class="field"><label>Precio contado *</label><input id="precio_contado" class="input" type="number" min="0" step="0.01" placeholder="0"></div>
+            <div class="field"><label>Precio lista *</label><input id="precio_lista" class="input" type="number" min="0" step="0.01" placeholder="0"></div>
+            <div class="field full"><label>Descripción</label><textarea id="descripcion_phone" class="textarea" placeholder="Características, condición, garantía, detalles, etc."></textarea></div>
+            <div class="field full">
+              <label>Imágenes del equipo</label>
+              <div class="image-grid">
+                <div class="image-box"><label>Imagen 1 *</label><input id="phone_image_1" type="file" accept="image/*"><div class="preview" id="preview-phone-1">Sin imagen</div></div>
+                <div class="image-box"><label>Imagen 2</label><input id="phone_image_2" type="file" accept="image/*"><div class="preview" id="preview-phone-2">Sin imagen</div></div>
+                <div class="image-box"><label>Imagen 3</label><input id="phone_image_3" type="file" accept="image/*"><div class="preview" id="preview-phone-3">Sin imagen</div></div>
+                <div class="image-box"><label>Imagen 4</label><input id="phone_image_4" type="file" accept="image/*"><div class="preview" id="preview-phone-4">Sin imagen</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="accessory-fields" class="form-grid hidden">
+            <div class="field full"><label>Nombre *</label><input id="nombre_accesorio" class="input" placeholder="Ej: Cargador USB-C 20W"></div>
+            <div class="field full"><label>Descripción</label><textarea id="descripcion_accesorio" class="textarea" placeholder="Características del accesorio"></textarea></div>
+            <div class="field"><label>Precio *</label><input id="precio_accesorio" class="input" type="number" min="0" step="0.01" placeholder="0"></div>
+            <div class="field full">
+              <label>Imágenes del accesorio</label>
+              <div class="image-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+                <div class="image-box"><label>Imagen 1 *</label><input id="accessory_image_1" type="file" accept="image/*"><div class="preview" id="preview-accessory-1">Sin imagen</div></div>
+                <div class="image-box"><label>Imagen 2</label><input id="accessory_image_2" type="file" accept="image/*"><div class="preview" id="preview-accessory-2">Sin imagen</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button id="save-btn" class="btn btn-primary" type="submit">Guardar producto</button>
+            <button id="cancel-edit-btn" class="btn btn-secondary hidden" type="button">Cancelar edición</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div><h2>Productos publicados</h2><p>Editar, ocultar o eliminar productos.</p></div>
+        <div class="toolbar">
+          <input id="search" class="input" placeholder="Buscar producto...">
+          <select id="list-filter" class="select"><option value="todos">Todos</option><option value="sellados">Sellados</option><option value="usados">Usados</option><option value="accesorios">Accesorios</option></select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Imagen</th><th>Destino</th><th>Producto</th><th>Detalles</th><th>Precio</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody id="products-list"></tbody>
+        </table>
+        <div id="empty-list" class="empty hidden">Todavía no hay productos cargados.</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="notice" class="notice"></div>
+
+<script>
+/* =========================================================
+   CONFIGURACIÓN SUPABASE
+   Pegá acá los datos de tu proyecto nuevo.
+   IMPORTANTE: usar Publishable key (o anon key legacy),
+   NUNCA una Secret key / service_role en este HTML.
+========================================================= */
+const SUPABASE_URL = 'PEGAR_PROJECT_URL_AQUI';
+const SUPABASE_PUBLISHABLE_KEY = 'PEGAR_PUBLISHABLE_KEY_AQUI';
+const STORAGE_BUCKET = 'productos';
+
+let db = null;
+let currentUser = null;
+let products = [];
+let editingId = null;
+let editingProduct = null;
+
+const $ = (id) => document.getElementById(id);
+const configured = () => SUPABASE_URL.startsWith('https://') && !SUPABASE_URL.includes('PEGAR_') && SUPABASE_PUBLISHABLE_KEY && !SUPABASE_PUBLISHABLE_KEY.includes('PEGAR_');
+
+function initClient(){
+  if(!configured()) return false;
+  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+  return true;
+}
+
+function notify(message, type='ok'){
+  const n = $('notice');
+  n.textContent = message;
+  n.className = `notice ${type} show`;
+  clearTimeout(window.__noticeTimer);
+  window.__noticeTimer = setTimeout(()=>n.classList.remove('show'), 3800);
+}
+
+function money(value){
+  const n = Number(value || 0);
+  return '$' + n.toLocaleString('es-AR', {maximumFractionDigits:2});
+}
+function escapeHtml(v=''){
+  return String(v).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c]));
+}
+function categoryLabel(c){ return c==='sellados'?'Equipos Sellados':c==='usados'?'Equipos Usados':'Accesorios'; }
+
+async function boot(){
+  if(!initClient()){
+    $('login-config-warning').classList.remove('hidden');
+    $('login-btn').disabled = true;
+    return;
+  }
+  const {data:{session}} = await db.auth.getSession();
+  if(session?.user) showAdmin(session.user); else showLogin();
+  db.auth.onAuthStateChange((_event, session)=>{
+    if(session?.user) showAdmin(session.user); else showLogin();
+  });
+}
+
+function showLogin(){
+  currentUser = null;
+  $('admin').classList.add('hidden');
+  $('login-screen').classList.remove('hidden');
+}
+async function showAdmin(user){
+  currentUser = user;
+  $('login-screen').classList.add('hidden');
+  $('admin').classList.remove('hidden');
+  $('user-email').textContent = user.email || '';
+  await loadProducts();
+}
+
+$('login-form').addEventListener('submit', async e=>{
+  e.preventDefault();
+  if(!db) return;
+  const btn=$('login-btn'); btn.disabled=true; btn.textContent='Ingresando...';
+  const {error}=await db.auth.signInWithPassword({email:$('login-email').value.trim(),password:$('login-password').value});
+  btn.disabled=false; btn.textContent='Ingresar';
+  if(error) notify('No se pudo iniciar sesión: '+error.message,'error');
+});
+$('logout-btn').addEventListener('click', async()=>{ if(db) await db.auth.signOut(); });
+
+/* DESTINO / FORMULARIO DINÁMICO */
+function setCategory(value){
+  $('categoria').value=value;
+  document.querySelectorAll('#destination-buttons button').forEach(b=>b.classList.toggle('active',b.dataset.value===value));
+  const accessory=value==='accesorios';
+  $('phone-fields').classList.toggle('hidden',accessory);
+  $('accessory-fields').classList.toggle('hidden',!accessory);
+}
+document.querySelectorAll('#destination-buttons button').forEach(b=>b.addEventListener('click',()=>setCategory(b.dataset.value)));
+
+/* PREVIEWS */
+const imageInputs=[
+  ['phone_image_1','preview-phone-1'],['phone_image_2','preview-phone-2'],['phone_image_3','preview-phone-3'],['phone_image_4','preview-phone-4'],
+  ['accessory_image_1','preview-accessory-1'],['accessory_image_2','preview-accessory-2']
+];
+imageInputs.forEach(([inputId,previewId])=>{
+  $(inputId).addEventListener('change',()=>{
+    const file=$(inputId).files?.[0];
+    if(!file){ $(previewId).innerHTML='Sin imagen'; return; }
+    const url=URL.createObjectURL(file);
+    $(previewId).innerHTML=`<img src="${url}" alt="Vista previa">`;
+  });
+});
+
+function validateForm(){
+  const category=$('categoria').value;
+  if(category==='accesorios'){
+    if(!$('nombre_accesorio').value.trim()) return 'Ingresá el nombre del accesorio.';
+    if(!$('precio_accesorio').value) return 'Ingresá el precio del accesorio.';
+    if(!editingId && !$('accessory_image_1').files?.[0]) return 'La Imagen 1 es obligatoria.';
+  } else {
+    if(!$('serie').value) return 'Elegí una serie.';
+    if(!$('modelo').value.trim()) return 'Ingresá el modelo.';
+    if(!$('memoria').value) return 'Elegí la memoria.';
+    if(!$('color').value.trim()) return 'Ingresá el color.';
+    if(!$('precio_contado').value) return 'Ingresá el precio contado.';
+    if(!$('precio_lista').value) return 'Ingresá el precio lista.';
+    const bat=$('estado_bateria').value;
+    if(bat!=='' && (Number(bat)<0 || Number(bat)>100)) return 'El estado de batería debe estar entre 0 y 100.';
+    if(!editingId && !$('phone_image_1').files?.[0]) return 'La Imagen 1 es obligatoria.';
+  }
+  return '';
+}
+
+function safeFilename(name){ return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9._-]+/g,'-').replace(/-+/g,'-'); }
+async function uploadImage(file, category, slot){
+  if(!file) return null;
+  if(file.size > 10*1024*1024) throw new Error(`${file.name}: la imagen supera 10 MB.`);
+  const ext=(file.name.split('.').pop()||'jpg').toLowerCase();
+  const base=safeFilename(file.name.replace(/\.[^.]+$/,''));
+  const uid=(crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
+  const path=`${category}/${Date.now()}-${uid}-${slot}-${base}.${ext}`;
+  const {error}=await db.storage.from(STORAGE_BUCKET).upload(path,file,{cacheControl:'3600',upsert:false,contentType:file.type||undefined});
+  if(error) throw error;
+  const {data}=db.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+  return data.publicUrl;
+}
+
+function buildBasePayload(){
+  const category=$('categoria').value;
+  if(category==='accesorios'){
+    return {
+      categoria:category,
+      nombre:$('nombre_accesorio').value.trim(),
+      descripcion:$('descripcion_accesorio').value.trim() || null,
+      precio:Number($('precio_accesorio').value),
+      serie:null,modelo:null,memoria:null,color:null,estado_bateria:null,precio_contado:null,precio_lista:null,
+      imagen_3:null,imagen_4:null
+    };
+  }
+  return {
+    categoria:category,
+    nombre:null,
+    serie:$('serie').value,
+    modelo:$('modelo').value.trim(),
+    memoria:$('memoria').value,
+    color:$('color').value.trim(),
+    estado_bateria:$('estado_bateria').value===''?100:Number($('estado_bateria').value),
+    descripcion:$('descripcion_phone').value.trim() || null,
+    precio_contado:Number($('precio_contado').value),
+    precio_lista:Number($('precio_lista').value),
+    precio:null
+  };
+}
+
+$('product-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!db) return;
+  const validation=validateForm();
+  if(validation){notify(validation,'error');return;}
+  const btn=$('save-btn'); btn.disabled=true; btn.textContent=editingId?'Actualizando...':'Guardando...';
+  try{
+    const category=$('categoria').value;
+    const payload=buildBasePayload();
+    const existing=editingProduct||{};
+    if(category==='accesorios'){
+      payload.imagen_1=await uploadImage($('accessory_image_1').files?.[0],category,'1') || existing.imagen_1 || null;
+      payload.imagen_2=await uploadImage($('accessory_image_2').files?.[0],category,'2') || existing.imagen_2 || null;
+    }else{
+      for(let i=1;i<=4;i++){
+        payload[`imagen_${i}`]=await uploadImage($(`phone_image_${i}`).files?.[0],category,String(i)) || existing[`imagen_${i}`] || null;
+      }
+    }
+    if(!payload.imagen_1) throw new Error('La Imagen 1 es obligatoria.');
+    let result;
+    if(editingId) result=await db.from('productos_mm').update(payload).eq('id',editingId).select().single();
+    else result=await db.from('productos_mm').insert(payload).select().single();
+    if(result.error) throw result.error;
+    notify(editingId?'Producto actualizado correctamente.':'Producto publicado correctamente.');
+    resetForm();
+    await loadProducts();
+  }catch(err){notify('Error al guardar: '+(err.message||err),'error');}
+  finally{btn.disabled=false;btn.textContent=editingId?'Actualizar producto':'Guardar producto';}
+});
+
+function setPreview(previewId,url){ $(previewId).innerHTML=url?`<img src="${escapeHtml(url)}" alt="Imagen actual">`:'Sin imagen'; }
+function resetForm(){
+  editingId=null; editingProduct=null;
+  $('product-form').reset();
+  setCategory('sellados');
+  $('form-title').textContent='Nuevo producto';
+  $('save-btn').textContent='Guardar producto';
+  $('cancel-edit-btn').classList.add('hidden');
+  imageInputs.forEach(([,p])=>$(p).innerHTML='Sin imagen');
+}
+$('cancel-edit-btn').addEventListener('click',resetForm);
+
+function editProduct(id){
+  const p=products.find(x=>x.id===id); if(!p)return;
+  editingId=id; editingProduct=p;
+  setCategory(p.categoria);
+  if(p.categoria==='accesorios'){
+    $('nombre_accesorio').value=p.nombre||'';
+    $('descripcion_accesorio').value=p.descripcion||'';
+    $('precio_accesorio').value=p.precio??'';
+    setPreview('preview-accessory-1',p.imagen_1);setPreview('preview-accessory-2',p.imagen_2);
+  }else{
+    $('serie').value=p.serie||'';$('modelo').value=p.modelo||'';$('memoria').value=p.memoria||'';$('color').value=p.color||'';
+    $('estado_bateria').value=p.estado_bateria??100;$('descripcion_phone').value=p.descripcion||'';$('precio_contado').value=p.precio_contado??'';$('precio_lista').value=p.precio_lista??'';
+    for(let i=1;i<=4;i++)setPreview(`preview-phone-${i}`,p[`imagen_${i}`]);
+  }
+  $('form-title').textContent='Editar producto';
+  $('save-btn').textContent='Actualizar producto';
+  $('cancel-edit-btn').classList.remove('hidden');
+  $('form-panel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function storagePathFromUrl(url){
+  if(!url)return null;
+  const marker=`/storage/v1/object/public/${STORAGE_BUCKET}/`;
+  const idx=url.indexOf(marker); if(idx<0)return null;
+  return decodeURIComponent(url.slice(idx+marker.length));
+}
+async function deleteProduct(id){
+  const p=products.find(x=>x.id===id);if(!p)return;
+  const label=p.categoria==='accesorios'?p.nombre:p.modelo;
+  if(!confirm(`¿Eliminar definitivamente "${label}"?`))return;
+  try{
+    const paths=[p.imagen_1,p.imagen_2,p.imagen_3,p.imagen_4].map(storagePathFromUrl).filter(Boolean);
+    if(paths.length){const {error:storageError}=await db.storage.from(STORAGE_BUCKET).remove(paths);if(storageError)console.warn(storageError);}
+    const {error}=await db.from('productos_mm').delete().eq('id',id);if(error)throw error;
+    notify('Producto eliminado.');if(editingId===id)resetForm();await loadProducts();
+  }catch(err){notify('Error al eliminar: '+(err.message||err),'error');}
+}
+async function toggleActive(id,current){
+  const {error}=await db.from('productos_mm').update({activo:!current}).eq('id',id);
+  if(error)notify('No se pudo cambiar el estado: '+error.message,'error');else{notify(!current?'Producto visible en la web.':'Producto oculto.');await loadProducts();}
+}
+
+async function loadProducts(){
+  if(!db)return;
+  const {data,error}=await db.from('productos_mm').select('*').order('created_at',{ascending:false});
+  if(error){notify('Error al cargar productos: '+error.message,'error');return;}
+  products=data||[];updateStats();renderList();
+}
+function updateStats(){
+  $('stat-total').textContent=products.length;
+  $('stat-sellados').textContent=products.filter(p=>p.categoria==='sellados').length;
+  $('stat-usados').textContent=products.filter(p=>p.categoria==='usados').length;
+  $('stat-accesorios').textContent=products.filter(p=>p.categoria==='accesorios').length;
+}
+function renderList(){
+  const term=$('search').value.trim().toLowerCase();const filter=$('list-filter').value;
+  const list=products.filter(p=>{
+    if(filter!=='todos'&&p.categoria!==filter)return false;
+    const hay=[p.nombre,p.modelo,p.serie,p.memoria,p.color,p.descripcion].filter(Boolean).join(' ').toLowerCase();
+    return !term||hay.includes(term);
+  });
+  const tbody=$('products-list');tbody.innerHTML='';$('empty-list').classList.toggle('hidden',list.length!==0);
+  list.forEach(p=>{
+    const title=p.categoria==='accesorios'?(p.nombre||'Accesorio'):(p.modelo||'Equipo');
+    const detail=p.categoria==='accesorios'?'—':[p.serie,p.memoria,p.color,p.estado_bateria!=null?`${p.estado_bateria}% batería`:null].filter(Boolean).join(' · ');
+    const price=p.categoria==='accesorios'?money(p.precio):`${money(p.precio_contado)} / Lista ${money(p.precio_lista)}`;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td>${p.imagen_1?`<img class="thumb" src="${escapeHtml(p.imagen_1)}" alt="">`:'—'}</td>
+      <td><span class="badge ${p.categoria}">${escapeHtml(categoryLabel(p.categoria))}</span></td>
+      <td><b>${escapeHtml(title)}</b><div style="color:#91a6cf;font-size:12px;margin-top:5px">${escapeHtml((p.descripcion||'').slice(0,70))}</div></td>
+      <td>${escapeHtml(detail)}</td>
+      <td><b>${escapeHtml(price)}</b></td>
+      <td><span class="status ${p.activo?'on':''}">${p.activo?'Visible':'Oculto'}</span></td>
+      <td><div class="row-actions">
+        <button class="icon-btn" data-action="edit">Editar</button>
+        <button class="icon-btn" data-action="toggle">${p.activo?'Ocultar':'Mostrar'}</button>
+        <button class="icon-btn danger" data-action="delete">Eliminar</button>
+      </div></td>`;
+    tr.querySelector('[data-action="edit"]').onclick=()=>editProduct(p.id);
+    tr.querySelector('[data-action="toggle"]').onclick=()=>toggleActive(p.id,p.activo);
+    tr.querySelector('[data-action="delete"]').onclick=()=>deleteProduct(p.id);
+    tbody.appendChild(tr);
+  });
+}
+$('search').addEventListener('input',renderList);$('list-filter').addEventListener('change',renderList);
+
+boot();
+</script>
+</body>
+</html>
