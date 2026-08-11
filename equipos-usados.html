@@ -414,6 +414,92 @@
     .loading-spinner{width:38px;height:38px;border-radius:50%;border:3px solid rgba(255,255,255,.18);border-top-color:#fff;animation:mmspin .8s linear infinite;margin:0 auto 14px;}
     @keyframes mmspin{to{transform:rotate(360deg);}}
 
+  
+
+    /* ===========================
+       MODAL DE PRODUCTO
+    =========================== */
+    .product-card{cursor:pointer;}
+    .product-card:focus-visible{outline:3px solid rgba(208,167,223,.75);outline-offset:4px;}
+    .product-action{border:0;cursor:pointer;font:inherit;}
+    .product-modal{
+      position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;
+      padding:22px;background:rgba(3,12,34,.76);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    }
+    .product-modal.open{display:flex;}
+    .product-modal-panel{
+      position:relative;width:min(1040px,100%);max-height:92vh;overflow:auto;
+      border-radius:30px;background:linear-gradient(145deg,#173b84 0%,#102f6d 100%);
+      border:1px solid rgba(255,255,255,.14);box-shadow:0 32px 90px rgba(0,0,0,.42);
+    }
+    .modal-close{
+      position:absolute;right:16px;top:16px;z-index:5;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.14);
+      background:rgba(7,24,60,.72);color:#fff;font-size:27px;line-height:1;cursor:pointer;display:grid;place-items:center;
+      transition:.2s ease;
+    }
+    .modal-close:hover{background:#fff;color:#173a7d;transform:rotate(5deg);}
+    .modal-grid{display:grid;grid-template-columns:1fr 1fr;min-height:620px;}
+    .modal-gallery{padding:28px;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.045));}
+    .modal-main-image{
+      position:relative;height:480px;border-radius:24px;overflow:hidden;display:grid;place-items:center;
+      background:#f6f8ff;border:1px solid rgba(255,255,255,.55);
+    }
+    .modal-main-image img{width:100%;height:100%;object-fit:contain;padding:18px;}
+    .modal-image-placeholder{width:170px;height:320px;border:5px solid #19336d;border-radius:35px;position:relative;}
+    .modal-image-placeholder::before{content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);width:70px;height:12px;border-radius:999px;background:#19336d;}
+    .gallery-arrow{
+      position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;
+      background:rgba(13,38,88,.88);color:#fff;font-size:23px;cursor:pointer;display:none;place-items:center;box-shadow:0 10px 24px rgba(0,0,0,.22);
+    }
+    .gallery-arrow.show{display:grid;}
+    .gallery-prev{left:12px}.gallery-next{right:12px}
+    .modal-thumbnails{display:flex;gap:10px;margin-top:14px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
+    .modal-thumbnails::-webkit-scrollbar{display:none;}
+    .modal-thumb{
+      width:72px;height:72px;flex:0 0 auto;border-radius:14px;border:2px solid transparent;background:rgba(255,255,255,.10);padding:4px;cursor:pointer;
+    }
+    .modal-thumb.active{border-color:#d0a7df;background:rgba(208,167,223,.14);}
+    .modal-thumb img{width:100%;height:100%;object-fit:cover;border-radius:9px;background:#fff;}
+    .modal-info{padding:38px 36px 34px;display:flex;flex-direction:column;}
+    .modal-condition{display:inline-flex;align-self:flex-start;padding:8px 12px;border-radius:999px;background:rgba(208,167,223,.16);border:1px solid rgba(208,167,223,.24);color:#e0b9eb;font-size:.72rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase;}
+    .modal-title{margin:15px 0 10px;font-size:clamp(2rem,4vw,3rem);line-height:1;letter-spacing:-.045em;color:#fff;}
+    .modal-description{margin:0 0 22px;color:#c7d6f3;line-height:1.75;font-size:.96rem;white-space:pre-line;}
+    .modal-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:24px;}
+    .modal-spec{padding:13px 14px;border-radius:15px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.09);}
+    .modal-spec small{display:block;margin-bottom:5px;color:#9fb4dc;font-size:.67rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase;}
+    .modal-spec strong{color:#fff;font-size:.92rem;}
+    .modal-prices{margin-top:auto;padding-top:20px;border-top:1px solid rgba(255,255,255,.10);}
+    .modal-price-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:9px;}
+    .modal-price-row span{color:#aebfe0;font-size:.82rem;font-weight:750;}
+    .modal-price-row strong{color:#fff;font-size:1.45rem;}
+    .modal-price-row.list strong{font-size:1rem;color:#c6d4ef;font-weight:750;}
+    .modal-whatsapp{
+      margin-top:18px;min-height:54px;width:100%;display:flex;align-items:center;justify-content:center;gap:11px;border-radius:16px;
+      background:#25D366;color:#fff;font-weight:900;box-shadow:0 14px 32px rgba(37,211,102,.22);transition:.22s ease;
+    }
+    .modal-whatsapp:hover{transform:translateY(-2px);box-shadow:0 18px 38px rgba(37,211,102,.30);}
+    .modal-whatsapp svg{width:24px;height:24px;fill:currentColor;}
+    .modal-note{margin:10px 0 0;text-align:center;color:#9fb4dc;font-size:.72rem;}
+    body.modal-open{overflow:hidden;}
+
+    @media(max-width:820px){
+      .product-modal{padding:10px;align-items:flex-end;}
+      .product-modal-panel{max-height:94vh;border-radius:26px 26px 0 0;}
+      .modal-grid{grid-template-columns:1fr;min-height:0;}
+      .modal-gallery{padding:18px 18px 10px;}
+      .modal-main-image{height:360px;}
+      .modal-info{padding:24px 20px 26px;}
+      .modal-title{font-size:2rem;}
+      .modal-specs{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:480px){
+      .modal-main-image{height:310px;}
+      .modal-gallery{padding:14px 14px 8px;}
+      .modal-info{padding:20px 16px 24px;}
+      .modal-specs{grid-template-columns:1fr;}
+      .modal-price-row strong{font-size:1.25rem;}
+    }
+
   </style>
 </head>
 <body>
@@ -483,6 +569,39 @@
     </div>
   </footer>
 
+
+  <!-- MODAL DETALLE DE PRODUCTO -->
+  <div id="product-modal" class="product-modal" aria-hidden="true">
+    <div class="product-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-product-title">
+      <button type="button" class="modal-close" id="modal-close" aria-label="Cerrar">×</button>
+      <div class="modal-grid">
+        <div class="modal-gallery">
+          <div class="modal-main-image" id="modal-main-image">
+            <button type="button" class="gallery-arrow gallery-prev" id="gallery-prev" aria-label="Foto anterior">‹</button>
+            <div id="modal-image-content"></div>
+            <button type="button" class="gallery-arrow gallery-next" id="gallery-next" aria-label="Foto siguiente">›</button>
+          </div>
+          <div class="modal-thumbnails" id="modal-thumbnails"></div>
+        </div>
+
+        <div class="modal-info">
+          <span class="modal-condition" id="modal-condition">Equipo</span>
+          <h2 class="modal-title" id="modal-product-title">iPhone</h2>
+          <p class="modal-description" id="modal-description"></p>
+          <div class="modal-specs" id="modal-specs"></div>
+          <div class="modal-prices" id="modal-prices"></div>
+
+          <a href="#" class="modal-whatsapp" id="modal-whatsapp" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.11 17.39c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.14-.42-2.17-1.34-.8-.71-1.34-1.59-1.5-1.86-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27 0 1.34.98 2.63 1.11 2.81.14.18 1.92 2.93 4.65 4.11.65.28 1.16.45 1.56.58.66.21 1.25.18 1.72.11.52-.08 1.6-.65 1.83-1.28.23-.63.23-1.17.16-1.28-.07-.11-.25-.18-.52-.32zM16.05 4.8c-6.17 0-11.18 5.01-11.18 11.18 0 1.97.51 3.82 1.4 5.43L4.8 27.2l5.94-1.56a11.12 11.12 0 0 0 5.31 1.35h.01c6.17 0 11.18-5.01 11.18-11.18S22.22 4.8 16.05 4.8zm0 20.3h-.01c-1.65 0-3.27-.44-4.68-1.28l-.34-.2-3.52.92.94-3.43-.22-.35a9.26 9.26 0 1 1 7.83 4.34z"/></svg>
+            Consultar disponibilidad por WhatsApp
+          </a>
+          <p class="modal-note">La consulta se abrirá con el modelo seleccionado.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <script>
     const SUPABASE_URL = 'https://pjwtyakemdsytixpalzr.supabase.co';
     const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_L8JVVwkZWCL8OXYA3XGysw_gT0cYtaI';
@@ -513,6 +632,133 @@
         link.rel = 'noopener noreferrer';
       });
     }
+
+
+    let modalProduct = null;
+    let modalImages = [];
+    let modalImageIndex = 0;
+
+    const productModal = document.getElementById('product-modal');
+    const modalClose = document.getElementById('modal-close');
+    const modalImageContent = document.getElementById('modal-image-content');
+    const modalThumbnails = document.getElementById('modal-thumbnails');
+    const galleryPrev = document.getElementById('gallery-prev');
+    const galleryNext = document.getElementById('gallery-next');
+    const modalCondition = document.getElementById('modal-condition');
+    const modalTitle = document.getElementById('modal-product-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalSpecs = document.getElementById('modal-specs');
+    const modalPrices = document.getElementById('modal-prices');
+    const modalWhatsapp = document.getElementById('modal-whatsapp');
+
+    function productImages(product) {
+      return [product.imagen_1, product.imagen_2, product.imagen_3, product.imagen_4]
+        .filter(url => url && String(url).trim());
+    }
+
+    function renderModalImage() {
+      if(!modalImages.length) {
+        modalImageContent.innerHTML = '<div class="modal-image-placeholder" aria-label="Sin imagen"></div>';
+      } else {
+        const src = modalImages[modalImageIndex];
+        modalImageContent.innerHTML = `<img src="${escapeHTML(src)}" alt="${escapeHTML(modalProduct?.name || 'Producto')} - foto ${modalImageIndex + 1}">`;
+      }
+
+      const multi = modalImages.length > 1;
+      galleryPrev.classList.toggle('show', multi);
+      galleryNext.classList.toggle('show', multi);
+
+      modalThumbnails.innerHTML = modalImages.map((src, index) => `
+        <button type="button" class="modal-thumb ${index === modalImageIndex ? 'active' : ''}" data-index="${index}" aria-label="Ver foto ${index + 1}">
+          <img src="${escapeHTML(src)}" alt="Miniatura ${index + 1}">
+        </button>`).join('');
+
+      modalThumbnails.querySelectorAll('.modal-thumb').forEach(btn => {
+        btn.addEventListener('click', () => {
+          modalImageIndex = Number(btn.dataset.index);
+          renderModalImage();
+        });
+      });
+    }
+
+    function changeModalImage(direction) {
+      if(modalImages.length < 2) return;
+      modalImageIndex = (modalImageIndex + direction + modalImages.length) % modalImages.length;
+      renderModalImage();
+    }
+
+    function detailSpec(label, value) {
+      if(value === null || value === undefined || value === '') return '';
+      return `<div class="modal-spec"><small>${escapeHTML(label)}</small><strong>${escapeHTML(value)}</strong></div>`;
+    }
+
+    function openProductModal(product) {
+      modalProduct = product;
+      modalImages = productImages(product);
+      modalImageIndex = 0;
+
+      modalCondition.textContent = product.condition || (PAGE_CATEGORY === 'sellados' ? 'Sellado' : 'Usado');
+      modalTitle.textContent = product.name || product.modelo || 'iPhone';
+      modalDescription.textContent = product.descripcion || 'Consultanos por disponibilidad, estado y formas de pago.';
+
+      modalSpecs.innerHTML = [
+        detailSpec('Serie', product.serie),
+        detailSpec('Memoria', product.memoria || product.capacity),
+        detailSpec('Color', product.color),
+        PAGE_CATEGORY === 'usados' ? detailSpec('Estado de batería', `${product.estado_bateria ?? product.battery ?? 100}%`) : '',
+        PAGE_CATEGORY === 'sellados' && product.estado_bateria !== null && product.estado_bateria !== undefined ? detailSpec('Batería', `${product.estado_bateria}%`) : ''
+      ].join('');
+
+      modalPrices.innerHTML = `
+        <div class="modal-price-row"><span>Precio contado</span><strong>${money(product.precio_contado)}</strong></div>
+        ${product.precio_lista !== null && product.precio_lista !== undefined ? `<div class="modal-price-row list"><span>Precio lista</span><strong>${money(product.precio_lista)}</strong></div>` : ''}
+      `;
+
+      const message = `Hola MM Electrónica, quisiera consultar si está disponible el ${product.name || product.modelo || 'iPhone'}${product.memoria ? ` de ${product.memoria}` : ''}${product.color ? ` color ${product.color}` : ''}.`;
+      modalWhatsapp.href = `https://wa.me/${MM_WHATSAPP}?text=${encodeURIComponent(message)}`;
+
+      renderModalImage();
+      productModal.classList.add('open');
+      productModal.setAttribute('aria-hidden','false');
+      document.body.classList.add('modal-open');
+      setTimeout(() => modalClose.focus(), 30);
+    }
+
+    function closeProductModal() {
+      productModal.classList.remove('open');
+      productModal.setAttribute('aria-hidden','true');
+      document.body.classList.remove('modal-open');
+      modalProduct = null;
+    }
+
+    function bindProductCards() {
+      document.querySelectorAll('.product-card[data-product-id]').forEach(card => {
+        const open = () => {
+          const product = products.find(p => String(p.id) === String(card.dataset.productId));
+          if(product) openProductModal(product);
+        };
+        card.addEventListener('click', open);
+        card.addEventListener('keydown', event => {
+          if(event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            open();
+          }
+        });
+      });
+    }
+
+    modalClose?.addEventListener('click', closeProductModal);
+    productModal?.addEventListener('click', event => {
+      if(event.target === productModal) closeProductModal();
+    });
+    galleryPrev?.addEventListener('click', () => changeModalImage(-1));
+    galleryNext?.addEventListener('click', () => changeModalImage(1));
+    document.addEventListener('keydown', event => {
+      if(!productModal?.classList.contains('open')) return;
+      if(event.key === 'Escape') closeProductModal();
+      if(event.key === 'ArrowLeft') changeModalImage(-1);
+      if(event.key === 'ArrowRight') changeModalImage(1);
+    });
 
     function normalizedProduct(p) {
       if(PAGE_CATEGORY === 'accesorios') {
@@ -566,7 +812,7 @@
           ? `<small>Precio</small><strong>${money(p.precio)}</strong>`
           : `<small>Contado</small><strong>${money(p.precio_contado)}</strong>${p.precio_lista !== null ? `<small class="list-price">Lista: ${money(p.precio_lista)}</small>` : ''}`;
 
-        return `<article class="product-card">
+        return `<article class="product-card" data-product-id="${escapeHTML(p.id)}" tabindex="0" role="button" aria-label="Ver detalles de ${escapeHTML(p.name)}">
           <div class="product-image">${image}<span class="product-badge">${escapeHTML(p.condition)}</span></div>
           <div class="product-body">
             <div class="product-overline">MM Electrónica</div>
@@ -575,11 +821,12 @@
             ${meta ? `<div class="product-meta">${meta}</div>` : ''}
             <div class="product-bottom">
               <div class="product-price">${prices}</div>
-              <a href="#" class="product-action js-whatsapp" data-message="Hola MM Electrónica, quiero consultar por ${escapeHTML(p.name)}.">→</a>
+              <button type="button" class="product-action" aria-label="Ver detalles">→</button>
             </div>
           </div>
         </article>`;
       }).join('');
+      bindProductCards();
       wireWhatsApp();
     }
 
