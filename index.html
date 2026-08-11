@@ -96,6 +96,7 @@
       border-radius:999px;
       box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
     }
+    .mm-nav::-webkit-scrollbar{display:none;}
     .mm-nav-link{
       display:flex;
       align-items:center;
@@ -201,20 +202,58 @@
     .section-title{margin:8px 0 0;font-size:clamp(2rem,4vw,3rem);line-height:1.04;letter-spacing:-.04em;}
     .section-desc{margin:11px 0 0;max-width:700px;line-height:1.75;color:rgba(228,237,255,.75);}
 
-    .category-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
-    .category-card{position:relative;overflow:hidden;border-radius:28px;padding:24px;min-height:230px;display:flex;flex-direction:column;color:#fff;transition:transform .25s ease,background .25s ease,box-shadow .25s ease;}
-    .category-card::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;right:-55px;top:-45px;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 70%);}
-    .category-card:hover{transform:translateY(-7px);background:rgba(255,255,255,.105);box-shadow:0 20px 48px rgba(3,15,45,.20);}
-    .category-icon{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.10);font-size:22px;margin-bottom:32px;}
-    .category-card h3{font-size:1.18rem;margin:0 0 9px;}
-    .category-card p{margin:0;color:rgba(227,237,255,.72);font-size:.9rem;line-height:1.55;}
-    .category-link{margin-top:auto;padding-top:22px;font-size:.84rem;font-weight:800;color:#dfc2ea;}
+    /* ÚLTIMOS EQUIPOS */
+    .latest-products-wrap{
+      position:relative;
+      overflow:hidden;
+      border-radius:38px;
+      padding:34px;
+      background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.045));
+      border:1px solid rgba(255,255,255,.11);
+      box-shadow:0 24px 70px rgba(5,19,55,.18);
+    }
+    .latest-products-wrap::before{
+      content:"";
+      position:absolute;
+      width:340px;
+      height:340px;
+      border-radius:50%;
+      right:-150px;
+      top:-180px;
+      background:radial-gradient(circle,rgba(190,132,211,.26),transparent 70%);
+      pointer-events:none;
+    }
+    .latest-head{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px;}
+    .latest-head-copy{max-width:720px;}
+    .view-all-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:14px;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:.85rem;font-weight:800;transition:transform .2s ease,background .2s ease;}
+    .view-all-link:hover{transform:translateY(-2px);background:rgba(255,255,255,.13);}
+    .latest-products-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;}
 
-    .about-card{border-radius:34px;padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
-    .about-points{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-    .about-point{padding:19px;border-radius:22px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);}
-    .about-point strong{display:block;margin-bottom:6px;}
-    .about-point span{font-size:.86rem;line-height:1.55;color:rgba(228,237,255,.72);}
+    .home-product-card{overflow:hidden;border-radius:28px;background:#f8faff;color:#12234d;border:1px solid rgba(255,255,255,.65);box-shadow:0 16px 38px rgba(4,17,50,.16);transition:transform .25s ease,box-shadow .25s ease;}
+    .home-product-card:hover{transform:translateY(-7px);box-shadow:0 24px 48px rgba(4,17,50,.23);}
+    .home-product-image{position:relative;height:235px;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 70% 15%,rgba(166,111,187,.20),transparent 32%),linear-gradient(180deg,#f9fbff 0%,#edf3ff 100%);border-bottom:1px solid #e4eaf7;}
+    .home-product-image img{width:100%;height:100%;object-fit:contain;transition:transform .3s ease;}
+    .home-product-card:hover .home-product-image img{transform:scale(1.035);}
+    .home-product-placeholder{width:112px;height:206px;border-radius:28px;background:linear-gradient(145deg,#242933,#07090d);padding:6px;box-shadow:0 20px 34px rgba(16,24,48,.20);transform:rotate(-3deg);}
+    .home-product-placeholder span{height:100%;border-radius:23px;display:grid;place-items:center;background:linear-gradient(160deg,#a16db5 0%,#435cbd 45%,#17357e 100%);color:#fff;font-size:34px;font-weight:900;letter-spacing:-3px;}
+    .home-product-badge{position:absolute;left:14px;top:14px;padding:7px 10px;border-radius:999px;background:#173b85;color:#fff;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;box-shadow:0 8px 20px rgba(23,59,133,.18);}
+    .home-product-body{padding:19px;}
+    .home-product-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.10em;color:#8a5aa0;font-weight:900;margin-bottom:7px;}
+    .home-product-title{margin:0;color:#11244f;font-size:1.06rem;line-height:1.3;font-weight:850;}
+    .home-product-specs{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;}
+    .home-product-spec{padding:6px 8px;border-radius:9px;background:#edf2fc;color:#536180;font-size:.73rem;font-weight:750;}
+    .home-product-price-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #e5eaf3;}
+    .home-product-price small{display:block;color:#7c89a6;font-size:.68rem;margin-bottom:3px;}
+    .home-product-price strong{display:block;color:#142d67;font-size:1.35rem;line-height:1;font-weight:900;}
+    .home-product-action{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#a86fbb,#7950a0);color:#fff;font-size:18px;font-weight:900;box-shadow:0 9px 22px rgba(121,80,160,.24);}
+
+    .latest-empty{grid-column:1/-1;min-height:300px;border-radius:30px;display:flex;align-items:center;justify-content:center;text-align:center;padding:38px;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.045));border:1px dashed rgba(255,255,255,.18);}
+    .latest-empty-inner{max-width:520px;}
+    .latest-empty-icon{width:82px;height:82px;margin:0 auto 20px;border-radius:25px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(168,111,187,.20));border:1px solid rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.08);}
+    .latest-empty-phone{width:29px;height:52px;border:3px solid #fff;border-radius:8px;position:relative;opacity:.92;}
+    .latest-empty-phone::before{content:"";position:absolute;width:10px;height:3px;border-radius:999px;background:#fff;top:4px;left:50%;transform:translateX(-50%);}
+    .latest-empty h3{margin:0;font-size:1.45rem;}
+    .latest-empty p{margin:10px auto 0;max-width:460px;color:rgba(228,237,255,.73);line-height:1.65;font-size:.93rem;}
 
     .cta-box{border-radius:34px;padding:46px;text-align:center;background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(168,111,187,.13));border:1px solid rgba(255,255,255,.13);box-shadow:var(--shadow-xl);}
     .cta-box h2{margin:10px auto 0;max-width:800px;font-size:clamp(2rem,4vw,3.4rem);line-height:1.02;letter-spacing:-.045em;}
@@ -233,18 +272,41 @@
     .footer-links a:hover{color:#fff;}
 
     @media(max-width:1120px){
-      .mm-header-container{grid-template-columns:1fr auto;}
-      .mm-nav,.mm-whatsapp{display:none;}
-      .mm-menu-button{display:flex;}
+      .mm-header-container{
+        grid-template-columns:1fr auto;
+        grid-template-areas:
+          "brand whatsapp"
+          "nav nav";
+        align-items:center;
+        gap:14px;
+      }
+      .mm-brand{grid-area:brand;}
+      .mm-whatsapp{grid-area:whatsapp;}
+      .mm-nav{
+        grid-area:nav;
+        justify-self:stretch;
+        width:100%;
+        overflow-x:auto;
+        flex-wrap:nowrap;
+        padding:5px;
+      }
+      .mm-nav-link{flex:0 0 auto;}
+      .mm-menu-button,
+      .mm-mobile-menu{display:none !important;}
       .hero-grid{grid-template-columns:1fr;gap:42px;}
       .showcase{max-width:720px;}
-      .category-grid{grid-template-columns:repeat(2,1fr);}
+      .latest-products-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
     }
     @media(max-width:760px){
       .mm-header{padding:10px 14px;}
-      .mm-logo-box{width:52px;height:52px;border-radius:16px;}
-      .mm-brand-text strong{font-size:21px;}
-      .mm-brand-text span{font-size:8px;letter-spacing:2px;}
+      .mm-header-container{gap:12px;}
+      .mm-logo-box{width:50px;height:50px;border-radius:16px;}
+      .mm-brand-text strong{font-size:19px;}
+      .mm-brand-text span{display:none;}
+      .mm-whatsapp{min-height:42px;padding:0 14px;font-size:12px;border-radius:14px;}
+      .wa-dot{width:8px;height:8px;}
+      .mm-nav{border-radius:18px;}
+      .mm-nav-link{min-height:38px;padding:0 14px;font-size:13px;}
       .hero{min-height:auto;}
       .hero-grid{padding:54px 0 70px;}
       .hero h1{font-size:clamp(2.65rem,13vw,4.3rem);}
@@ -256,10 +318,11 @@
       .showcase-tag{position:relative;left:auto;bottom:auto;margin-top:14px;text-align:center;}
       .section{padding:56px 0;}
       .section-head{align-items:flex-start;flex-direction:column;}
-      .category-grid{grid-template-columns:1fr;}
-      .category-card{min-height:210px;}
-      .about-card{grid-template-columns:1fr;padding:25px;}
-      .about-points{grid-template-columns:1fr;}
+      .latest-products-wrap{padding:24px;}
+      .latest-head{align-items:flex-start;flex-direction:column;}
+      .latest-products-grid{grid-template-columns:1fr;}
+      .view-all-link{width:100%;}
+      .home-product-image{height:260px;}
       .cta-box{padding:34px 22px;}
       .footer-inner{flex-direction:column;align-items:flex-start;}
     }
@@ -373,79 +436,20 @@
       </div>
     </section>
 
-    <!-- CATEGORÍAS -->
-    <section class="section">
+    <!-- ÚLTIMOS EQUIPOS PUBLICADOS -->
+    <section class="section" id="ultimos-equipos">
       <div class="home-shell">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">Encontrá lo que buscás</div>
-            <h2 class="section-title">Una tienda simple de recorrer.</h2>
-            <p class="section-desc">Cada categoría tiene su espacio para que el cliente llegue rápido al equipo o accesorio que necesita.</p>
-          </div>
-        </div>
-
-        <div class="category-grid">
-          <a href="equipos-sellados.html" class="surface category-card">
-            <div class="category-icon">▣</div>
-            <h3>Equipos Sellados</h3>
-            <p>iPhones nuevos organizados por modelo y capacidad.</p>
-            <span class="category-link">Ver catálogo →</span>
-          </a>
-
-          <a href="equipos-usados.html" class="surface category-card">
-            <div class="category-icon">◉</div>
-            <h3>Equipos Usados</h3>
-            <p>Unidades seleccionadas con información clara de su condición.</p>
-            <span class="category-link">Ver usados →</span>
-          </a>
-
-          <a href="accesorios.html" class="surface category-card">
-            <div class="category-icon">⌁</div>
-            <h3>Accesorios</h3>
-            <p>Protección, carga y complementos para acompañar tu iPhone.</p>
-            <span class="category-link">Ver accesorios →</span>
-          </a>
-
-          <a href="sobre-nosotros.html" class="surface category-card">
-            <div class="category-icon">MM</div>
-            <h3>Sobre Nosotros</h3>
-            <p>Conocé MM Electrónica, nuestra atención y forma de trabajar.</p>
-            <span class="category-link">Conocernos →</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- SOBRE LA EXPERIENCIA -->
-    <section class="section">
-      <div class="home-shell">
-        <div class="glass about-card">
-          <div>
-            <div class="eyebrow">MM Electrónica</div>
-            <h2 class="section-title">Una identidad distinta para una tienda de iPhone.</h2>
-            <p class="section-desc">
-              El azul profundo de la marca se combina con blanco y violeta para lograr una estética tecnológica, elegante y reconocible sin copiar el diseño de la web anterior.
-            </p>
+        <div class="latest-products-wrap">
+          <div class="latest-head">
+            <div class="latest-head-copy">
+              <div class="eyebrow">Recién publicados</div>
+              <h2 class="section-title">Últimos equipos disponibles.</h2>
+              <p class="section-desc">Los equipos más recientes de MM Electrónica van a aparecer acá con su condición, capacidad, color y precio.</p>
+            </div>
+            <a href="equipos-sellados.html" class="view-all-link">Ver todos los equipos →</a>
           </div>
 
-          <div class="about-points">
-            <div class="about-point">
-              <strong>Diseño propio</strong>
-              <span>Navegación en cápsula, logo protagonista y acentos violetas.</span>
-            </div>
-            <div class="about-point">
-              <strong>Responsive</strong>
-              <span>El menú cambia automáticamente para celulares y tablets.</span>
-            </div>
-            <div class="about-point">
-              <strong>Catálogo claro</strong>
-              <span>Preparado para separar sellados, usados y accesorios.</span>
-            </div>
-            <div class="about-point">
-              <strong>Listo para crecer</strong>
-              <span>Después podemos conectar productos y panel administrador.</span>
-            </div>
-          </div>
+          <div class="latest-products-grid" id="latest-products-grid" aria-live="polite"></div>
         </div>
       </div>
     </section>
@@ -488,6 +492,70 @@
   </footer>
 
   <script>
+    /*
+      ÚLTIMOS EQUIPOS
+      Por ahora la lista está vacía porque todavía no hay publicaciones.
+      Más adelante podemos reemplazar este array por los datos reales de Supabase.
+    */
+    const latestProducts = [
+      // Ejemplo para probar el diseño:
+      // { name: "iPhone 15 Pro", condition: "Sellado", capacity: "256 GB", color: "Titanio Natural", price: "USD 1.099", image: "" }
+    ];
+
+    function escapeHTML(value = "") {
+      return String(value).replace(/[&<>'"]/g, char => ({
+        '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;'
+      })[char]);
+    }
+
+    function renderLatestProducts(){
+      const grid = document.getElementById('latest-products-grid');
+      if(!grid) return;
+
+      if(!latestProducts.length){
+        grid.innerHTML = `
+          <div class="latest-empty">
+            <div class="latest-empty-inner">
+              <div class="latest-empty-icon" aria-hidden="true"><div class="latest-empty-phone"></div></div>
+              <h3>Próximamente vas a ver nuestros equipos acá.</h3>
+              <p>Todavía no hay publicaciones cargadas. Cuando incorporemos los primeros iPhones, esta sección mostrará automáticamente los más recientes con precio y características.</p>
+            </div>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = latestProducts.slice(0,4).map(product => {
+        const image = product.image
+          ? `<img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.name)}" loading="lazy">`
+          : `<div class="home-product-placeholder" aria-hidden="true"><span>MM</span></div>`;
+
+        return `
+          <article class="home-product-card">
+            <div class="home-product-image">
+              ${image}
+              <span class="home-product-badge">${escapeHTML(product.condition || 'Disponible')}</span>
+            </div>
+            <div class="home-product-body">
+              <div class="home-product-kicker">Apple iPhone</div>
+              <h3 class="home-product-title">${escapeHTML(product.name)}</h3>
+              <div class="home-product-specs">
+                ${product.capacity ? `<span class="home-product-spec">${escapeHTML(product.capacity)}</span>` : ''}
+                ${product.color ? `<span class="home-product-spec">${escapeHTML(product.color)}</span>` : ''}
+              </div>
+              <div class="home-product-price-row">
+                <div class="home-product-price">
+                  <small>Precio</small>
+                  <strong>${escapeHTML(product.price || 'Consultar')}</strong>
+                </div>
+                <a href="${escapeHTML(product.url || 'equipos-sellados.html')}" class="home-product-action" aria-label="Ver ${escapeHTML(product.name)}">→</a>
+              </div>
+            </div>
+          </article>`;
+      }).join('');
+    }
+
+    renderLatestProducts();
+
     /* CAMBIÁ ESTE NÚMERO POR EL WHATSAPP REAL DE MM ELECTRÓNICA.
        Formato internacional, sin +, espacios ni guiones. Ejemplo Argentina: 54911XXXXXXXX */
     const MM_WHATSAPP = "5490000000000";
