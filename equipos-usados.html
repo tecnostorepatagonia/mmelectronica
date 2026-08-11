@@ -488,7 +488,6 @@
     const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_L8JVVwkZWCL8OXYA3XGysw_gT0cYtaI';
     const MM_WHATSAPP = "5490000000000";
     const PAGE_CATEGORY = 'usados';
-    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
     let products = [];
     let activeFilter = 'Todos';
@@ -587,19 +586,33 @@
     async function loadProducts() {
       grid.innerHTML = '<div class="loading-state"><div><div class="loading-spinner"></div>Cargando publicaciones...</div></div>';
       try {
-        const { data, error } = await db
-          .from('productos_mm')
-          .select('*')
-          .eq('categoria', PAGE_CATEGORY)
-          .eq('activo', true)
-          .order('created_at', { ascending:false });
-        if(error) throw error;
+        const params = new URLSearchParams();
+        params.set('select', '*');
+        params.set('categoria', `eq.${PAGE_CATEGORY}`);
+        params.set('activo', 'eq.true');
+        params.set('order', 'created_at.desc');
+
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/productos_mm?${params.toString()}`, {
+          method: 'GET',
+          headers: {
+            'apikey': SUPABASE_PUBLISHABLE_KEY,
+            'Accept': 'application/json'
+          },
+          cache: 'no-store'
+        });
+
+        const raw = await response.text();
+        if (!response.ok) {
+          throw new Error(`Supabase ${response.status}: ${raw || response.statusText}`);
+        }
+
+        const data = raw ? JSON.parse(raw) : [];
         products = (data || []).map(normalizedProduct);
         renderProducts();
       } catch(err) {
-        console.error(err);
+        console.error('Error cargando productos:', err);
         if(count) count.textContent = '0';
-        grid.innerHTML = `<div class="empty-state"><div class="empty-inner"><div class="empty-icon">!</div><h3>No pudimos cargar el catálogo.</h3><p>Revisá la conexión con Supabase y las políticas RLS. Detalle: ${escapeHTML(err.message || err)}</p></div></div>`;
+        grid.innerHTML = `<div class="empty-state"><div class="empty-inner"><div class="empty-icon">!</div><h3>No pudimos cargar el catálogo.</h3><p>${escapeHTML(err.message || err)}</p></div></div>`;
       }
     }
 
