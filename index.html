@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MM Electrónica | iPhones y Accesorios</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --mm-blue:#183f8f;
+      --mm-blue-dark:#112d68;
+      --mm-blue-soft:#2554b8;
+      --mm-lilac:#9d72c9;
+      --mm-lilac-soft:#b68adb;
+      --mm-white:#ffffff;
+      --mm-text:#eaf0ff;
+      --mm-muted:#b8c7ef;
+      --mm-surface:rgba(255,255,255,.08);
+      --mm-border:rgba(255,255,255,.12);
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:'Inter', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(157,114,201,.18), transparent 22%),
+        radial-gradient(circle at top right, rgba(255,255,255,.08), transparent 18%),
+        linear-gradient(135deg, #122f70 0%, #183f8f 45%, #1a4aa5 100%);
+      color:var(--mm-white);
+      margin:0;
+    }
+
+    .glass{
+      background:rgba(255,255,255,.08);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 18px 45px rgba(0,0,0,.18);
+    }
+
+    .section-card{
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      box-shadow:0 12px 32px rgba(9,19,49,.18);
+    }
+
+    .hero-bg-circle{
+      position:absolute;
+      border-radius:999px;
+      filter:blur(6px);
+      pointer-events:none;
+      opacity:.45;
+    }
+
+    .nav-link{
+      position:relative;
+      transition:all .25s ease;
+    }
+
+    .nav-link::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-6px;
+      width:0;
+      height:2px;
+      background:var(--mm-lilac-soft);
+      transition:width .25s ease;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after{
+      width:100%;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, #ffffff 0%, #eaefff 100%);
+      color:var(--mm-blue-dark);
+      font-weight:800;
+      transition:all .25s ease;
+      box-shadow:0 14px 30px rgba(255,255,255,.18);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-2px);
+      box-shadow:0 18px 36px rgba(255,255,255,.22);
+    }
+
+    .btn-secondary{
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.18);
+      transition:all .25s ease;
+    }
+
+    .btn-secondary:hover{
+      transform:translateY(-2px);
+      background:rgba(255,255,255,.12);
+    }
+
+    .mini-card:hover,
+    .category-card:hover,
+    .feature-card:hover{
+      transform:translateY(-6px);
+      border-color:rgba(255,255,255,.18);
+      box-shadow:0 18px 36px rgba(0,0,0,.16);
+    }
+
+    .floating-phone{
+      animation:floatPhone 4s ease-in-out infinite;
+    }
+
+    @keyframes floatPhone {
+      0%,100%{ transform:translateY(0px); }
+      50%{ transform:translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-[#173a86]/85 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between py-4">
+        
+        <!-- LOGO -->
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="logo-mm-electronica.png" alt="MM Electrónica" class="h-12 w-auto object-contain">
+          <div class="hidden sm:block">
+            <p class="text-lg font-extrabold leading-none tracking-tight text-white">MM Electrónica</p>
+            <p class="text-xs text-blue-100/80">iPhones • Usados • Accesorios</p>
+          </div>
+        </a>
+
+        <!-- MENU DESKTOP -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-white/90">
+          <a href="index.html" class="nav-link active">Home</a>
+          <a href="equipos-sellados.html" class="nav-link">Equipos Sellados</a>
+          <a href="equipos-usados.html" class="nav-link">Equipos Usados</a>
+          <a href="accesorios.html" class="nav-link">Accesorios</a>
+          <a href="sobre-nosotros.html" class="nav-link">Sobre Nosotros</a>
+        </nav>
+
+        <!-- CTA -->
+        <a href="https://wa.me/5490000000000" target="_blank" class="hidden md:inline-flex items-center rounded-2xl px-5 py-3 text-sm btn-primary">
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="hero-bg-circle w-72 h-72 bg-purple-300/30 top-16 -left-10"></div>
+    <div class="hero-bg-circle w-96 h-96 bg-white/10 top-24 right-0"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        
+        <!-- TEXTO -->
+        <div>
+          <span class="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-100">
+            Tienda especializada en iPhone
+          </span>
+
+          <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight">
+            Tu próximo
+            <span class="text-white">iPhone</span>
+            <span class="text-[#c3a0ea]">está acá</span>
+          </h1>
+
+          <p class="mt-6 max-w-xl text-base sm:text-lg leading-8 text-blue-100/85">
+            En <strong>MM Electrónica</strong> encontrás equipos sellados, equipos usados seleccionados y accesorios
+            para que compres con confianza, estilo y buena atención.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a href="equipos-sellados.html" class="inline-flex items-center justify-center rounded-2xl px-6 py-4 text-sm sm:text-base btn-primary">
+              Ver Equipos Sellados
+            </a>
+            <a href="equipos-usados.html" class="inline-flex items-center justify-center rounded-2xl px-6 py-4 text-sm sm:text-base btn-secondary">
+              Ver Equipos Usados
+            </a>
+          </div>
+
+          <div class="mt-10 grid sm:grid-cols-3 gap-4">
+            <div class="section-card rounded-2xl p-4 mini-card transition-all duration-300">
+              <p class="text-2xl font-extrabold text-white">100%</p>
+              <p class="mt-1 text-sm text-blue-100/80">Atención personalizada</p>
+            </div>
+            <div class="section-card rounded-2xl p-4 mini-card transition-all duration-300">
+              <p class="text-2xl font-extrabold text-white">iPhone</p>
+              <p class="mt-1 text-sm text-blue-100/80">Equipos y accesorios</p>
+            </div>
+            <div class="section-card rounded-2xl p-4 mini-card transition-all duration-300">
+              <p class="text-2xl font-extrabold text-white">Garantía</p>
+              <p class="mt-1 text-sm text-blue-100/80">Según producto y condición</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- VISUAL -->
+        <div class="relative">
+          <div class="glass rounded-[32px] p-6 sm:p-8">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="rounded-[28px] bg-white/90 p-4 shadow-xl floating-phone">
+                <div class="mx-auto h-[320px] w-[160px] rounded-[32px] bg-gradient-to-b from-slate-200 to-slate-100 border-4 border-slate-900 relative overflow-hidden">
+                  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-slate-900 rounded-b-2xl"></div>
+                  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(157,114,201,.35),transparent_30%),linear-gradient(180deg,#eef2ff_0%,#ffffff_100%)]"></div>
+                  <div class="absolute bottom-6 left-0 right-0 text-center">
+                    <p class="text-slate-800 font-bold text-sm">iPhone Premium</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <div class="section-card rounded-3xl p-5 feature-card transition-all duration-300">
+                  <p class="text-xs uppercase tracking-[0.18em] text-blue-100/75 font-bold">Sellados</p>
+                  <h3 class="mt-2 text-xl font-bold text-white">Equipos nuevos</h3>
+                  <p class="mt-2 text-sm leading-6 text-blue-100/80">
+                    Modelos listos para entrega con una presentación premium.
+                  </p>
+                </div>
+
+                <div class="section-card rounded-3xl p-5 feature-card transition-all duration-300">
+                  <p class="text-xs uppercase tracking-[0.18em] text-blue-100/75 font-bold">Usados</p>
+                  <h3 class="mt-2 text-xl font-bold text-white">Equipos seleccionados</h3>
+                  <p class="mt-2 text-sm leading-6 text-blue-100/80">
+                    Opciones revisadas, ideales para quien busca ahorrar sin perder calidad.
+                  </p>
+                </div>
+
+                <div class="section-card rounded-3xl p-5 feature-card transition-all duration-300">
+                  <p class="text-xs uppercase tracking-[0.18em] text-blue-100/75 font-bold">Accesorios</p>
+                  <h3 class="mt-2 text-xl font-bold text-white">Todo para tu iPhone</h3>
+                  <p class="mt-2 text-sm leading-6 text-blue-100/80">
+                    Fundas, cargadores, cables, protectores y mucho más.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute -bottom-6 -left-6 hidden md:block rounded-3xl bg-[#9d72c9] px-6 py-4 shadow-2xl">
+            <p class="text-sm font-bold text-white">Diseño nuevo • Estética premium</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORÍAS -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-10">
+        <p class="text-sm font-bold uppercase tracking-[0.18em] text-blue-100/75">Navegá rápido</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+          Todo organizado para tu compra
+        </h2>
+        <p class="mt-4 max-w-2xl text-blue-100/80 leading-7">
+          Pensamos un home claro, elegante y fácil de recorrer para que el cliente encuentre rápido lo que necesita.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <a href="equipos-sellados.html" class="section-card category-card rounded-3xl p-6 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-2xl">📦</div>
+          <h3 class="mt-5 text-xl font-bold text-white">Equipos Sellados</h3>
+          <p class="mt-3 text-sm leading-6 text-blue-100/80">
+            iPhones nuevos, presentación impecable y catálogo ordenado por modelo.
+          </p>
+        </a>
+
+        <a href="equipos-usados.html" class="section-card category-card rounded-3xl p-6 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-2xl">📱</div>
+          <h3 class="mt-5 text-xl font-bold text-white">Equipos Usados</h3>
+          <p class="mt-3 text-sm leading-6 text-blue-100/80">
+            Equipos revisados, con detalles claros para una compra segura.
+          </p>
+        </a>
+
+        <a href="accesorios.html" class="section-card category-card rounded-3xl p-6 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-2xl">🎧</div>
+          <h3 class="mt-5 text-xl font-bold text-white">Accesorios</h3>
+          <p class="mt-3 text-sm leading-6 text-blue-100/80">
+            Complementos para proteger, cargar y mejorar tu experiencia.
+          </p>
+        </a>
+
+        <a href="sobre-nosotros.html" class="section-card category-card rounded-3xl p-6 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-2xl">💙</div>
+          <h3 class="mt-5 text-xl font-bold text-white">Sobre Nosotros</h3>
+          <p class="mt-3 text-sm leading-6 text-blue-100/80">
+            Conocé más sobre MM Electrónica y nuestra forma de trabajar.
+          </p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFICIOS -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-card rounded-[32px] p-8 sm:p-10">
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-blue-100/75">¿Por qué elegirnos?</p>
+            <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+              Una tienda pensada para vender mejor
+            </h2>
+            <p class="mt-5 text-blue-100/80 leading-8 max-w-2xl">
+              Este nuevo diseño está orientado a una experiencia más premium, clara y moderna, alineada al mundo Apple,
+              pero con identidad propia de <strong>MM Electrónica</strong>.
+            </p>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="rounded-3xl bg-white/10 p-5 border border-white/10">
+              <h3 class="text-lg font-bold">Diseño elegante</h3>
+              <p class="mt-2 text-sm leading-6 text-blue-100/80">Visual limpio, moderno y con personalidad.</p>
+            </div>
+            <div class="rounded-3xl bg-white/10 p-5 border border-white/10">
+              <h3 class="text-lg font-bold">Fácil de recorrer</h3>
+              <p class="mt-2 text-sm leading-6 text-blue-100/80">Categorías claras para que el cliente llegue rápido.</p>
+            </div>
+            <div class="rounded-3xl bg-white/10 p-5 border border-white/10">
+              <h3 class="text-lg font-bold">Listo para catálogo</h3>
+              <p class="mt-2 text-sm leading-6 text-blue-100/80">Preparado para mostrar productos de forma atractiva.</p>
+            </div>
+            <div class="rounded-3xl bg-white/10 p-5 border border-white/10">
+              <h3 class="text-lg font-bold">Identidad visual</h3>
+              <p class="mt-2 text-sm leading-6 text-blue-100/80">Inspirado en el logo y los colores de la marca.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="py-10 pb-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="glass rounded-[32px] p-8 sm:p-12">
+        <p class="text-sm font-bold uppercase tracking-[0.18em] text-blue-100/75">MM Electrónica</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+          Listos para seguir con el resto del sitio
+        </h2>
+        <p class="mt-5 max-w-2xl mx-auto text-blue-100/80 leading-8">
+          Ya con este home definimos la línea estética general. El siguiente paso puede ser avanzar con
+          <strong>Equipos Sellados</strong> y dejar toda la web unificada.
+        </p>
+
+        <div class="mt-8 flex flex-wrap justify-center gap-4">
+          <a href="equipos-sellados.html" class="inline-flex items-center justify-center rounded-2xl px-6 py-4 btn-primary">
+            Seguir con Equipos Sellados
+          </a>
+          <a href="https://wa.me/5490000000000" target="_blank" class="inline-flex items-center justify-center rounded-2xl px-6 py-4 btn-secondary">
+            Botón de WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 bg-[#133474]/60 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <img src="logo-mm-electronica.png" alt="MM Electrónica" class="h-10 w-auto object-contain">
+          <div>
+            <p class="text-sm font-bold text-white">MM Electrónica</p>
+            <p class="text-xs text-blue-100/70">Tienda de iPhones y accesorios</p>
+          </div>
+        </div>
+
+        <nav class="flex flex-wrap justify-center gap-4 text-sm text-blue-100/80">
+          <a href="index.html" class="hover:text-white">Home</a>
+          <a href="equipos-sellados.html" class="hover:text-white">Equipos Sellados</a>
+          <a href="equipos-usados.html" class="hover:text-white">Equipos Usados</a>
+          <a href="accesorios.html" class="hover:text-white">Accesorios</a>
+          <a href="sobre-nosotros.html" class="hover:text-white">Sobre Nosotros</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
