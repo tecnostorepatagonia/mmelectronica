@@ -208,12 +208,12 @@ tbody tr:hover{background:rgba(255,255,255,.035)}
             <div class="field"><label>Precio lista *</label><input id="precio_lista" class="input" type="number" min="0" step="0.01" placeholder="0"></div>
             <div class="field full"><label>Descripción</label><textarea id="descripcion_phone" class="textarea" placeholder="Características, condición, garantía, detalles, etc."></textarea></div>
             <div class="field full">
-              <label>Imágenes del equipo</label>
+              <label>Imágenes del equipo</label><small>Solo se permiten archivos en formato .webp.</small>
               <div class="image-grid">
-                <div class="image-box"><label>Imagen 1 *</label><input id="phone_image_1" type="file" accept="image/*"><div class="preview" id="preview-phone-1">Sin imagen</div></div>
-                <div class="image-box"><label>Imagen 2</label><input id="phone_image_2" type="file" accept="image/*"><div class="preview" id="preview-phone-2">Sin imagen</div></div>
-                <div class="image-box"><label>Imagen 3</label><input id="phone_image_3" type="file" accept="image/*"><div class="preview" id="preview-phone-3">Sin imagen</div></div>
-                <div class="image-box"><label>Imagen 4</label><input id="phone_image_4" type="file" accept="image/*"><div class="preview" id="preview-phone-4">Sin imagen</div></div>
+                <div class="image-box"><label>Imagen 1 *</label><input id="phone_image_1" type="file" accept=".webp,image/webp"><div class="preview" id="preview-phone-1">Sin imagen</div></div>
+                <div class="image-box"><label>Imagen 2</label><input id="phone_image_2" type="file" accept=".webp,image/webp"><div class="preview" id="preview-phone-2">Sin imagen</div></div>
+                <div class="image-box"><label>Imagen 3</label><input id="phone_image_3" type="file" accept=".webp,image/webp"><div class="preview" id="preview-phone-3">Sin imagen</div></div>
+                <div class="image-box"><label>Imagen 4</label><input id="phone_image_4" type="file" accept=".webp,image/webp"><div class="preview" id="preview-phone-4">Sin imagen</div></div>
               </div>
             </div>
           </div>
@@ -223,10 +223,10 @@ tbody tr:hover{background:rgba(255,255,255,.035)}
             <div class="field full"><label>Descripción</label><textarea id="descripcion_accesorio" class="textarea" placeholder="Características del accesorio"></textarea></div>
             <div class="field"><label>Precio *</label><input id="precio_accesorio" class="input" type="number" min="0" step="0.01" placeholder="0"></div>
             <div class="field full">
-              <label>Imágenes del accesorio</label>
+              <label>Imágenes del accesorio</label><small>Solo se permiten archivos en formato .webp.</small>
               <div class="image-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">
-                <div class="image-box"><label>Imagen 1 *</label><input id="accessory_image_1" type="file" accept="image/*"><div class="preview" id="preview-accessory-1">Sin imagen</div></div>
-                <div class="image-box"><label>Imagen 2</label><input id="accessory_image_2" type="file" accept="image/*"><div class="preview" id="preview-accessory-2">Sin imagen</div></div>
+                <div class="image-box"><label>Imagen 1 *</label><input id="accessory_image_1" type="file" accept=".webp,image/webp"><div class="preview" id="preview-accessory-1">Sin imagen</div></div>
+                <div class="image-box"><label>Imagen 2</label><input id="accessory_image_2" type="file" accept=".webp,image/webp"><div class="preview" id="preview-accessory-2">Sin imagen</div></div>
               </div>
             </div>
           </div>
@@ -356,8 +356,19 @@ const imageInputs=[
 ];
 imageInputs.forEach(([inputId,previewId])=>{
   $(inputId).addEventListener('change',()=>{
-    const file=$(inputId).files?.[0];
+    const input=$(inputId);
+    const file=input.files?.[0];
     if(!file){ $(previewId).innerHTML='Sin imagen'; return; }
+
+    const isWebpExtension=/\.webp$/i.test(file.name);
+    const isWebpMime=!file.type || file.type==='image/webp';
+    if(!isWebpExtension || !isWebpMime){
+      input.value='';
+      $(previewId).innerHTML='Solo se permiten imágenes .webp';
+      notify('Formato no permitido. Subí únicamente imágenes .webp.','error');
+      return;
+    }
+
     const url=URL.createObjectURL(file);
     $(previewId).innerHTML=`<img src="${url}" alt="Vista previa">`;
   });
@@ -387,11 +398,18 @@ function safeFilename(name){ return name.toLowerCase().normalize('NFD').replace(
 async function uploadImage(file, category, slot){
   if(!file) return null;
   if(file.size > 10*1024*1024) throw new Error(`${file.name}: la imagen supera 10 MB.`);
-  const ext=(file.name.split('.').pop()||'jpg').toLowerCase();
+
+  const isWebpExtension=/\.webp$/i.test(file.name);
+  const isWebpMime=!file.type || file.type==='image/webp';
+  if(!isWebpExtension || !isWebpMime){
+    throw new Error(`${file.name}: solo se permiten imágenes en formato .webp.`);
+  }
+
+  const ext='webp';
   const base=safeFilename(file.name.replace(/\.[^.]+$/,''));
   const uid=(crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
   const path=`${category}/${Date.now()}-${uid}-${slot}-${base}.${ext}`;
-  const {error}=await db.storage.from(STORAGE_BUCKET).upload(path,file,{cacheControl:'3600',upsert:false,contentType:file.type||undefined});
+  const {error}=await db.storage.from(STORAGE_BUCKET).upload(path,file,{cacheControl:'3600',upsert:false,contentType:'image/webp'});
   if(error) throw error;
   const {data}=db.storage.from(STORAGE_BUCKET).getPublicUrl(path);
   return data.publicUrl;
