@@ -686,82 +686,91 @@
 
     /* ===========================
        MODAL DE PRODUCTO - HOME
+       Mismo diseño que Equipos Sellados.
+       Selectores encapsulados para evitar interferencias del home.
     =========================== */
     .home-product-card{cursor:pointer;}
     .home-product-card:focus-visible{outline:3px solid rgba(208,167,223,.75);outline-offset:4px;}
     .home-product-action{border:0;cursor:pointer;font:inherit;}
-    .product-modal{
+
+    #product-modal.product-modal{
       position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;
       padding:22px;background:rgba(3,12,34,.76);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
     }
-    .product-modal.open{display:flex;}
-    .product-modal-panel{
+    #product-modal.product-modal.open{display:flex;}
+    #product-modal .product-modal-panel{
       position:relative;width:min(1040px,100%);max-height:92vh;overflow:auto;
       border-radius:30px;background:linear-gradient(145deg,#173b84 0%,#102f6d 100%);
       border:1px solid rgba(255,255,255,.14);box-shadow:0 32px 90px rgba(0,0,0,.42);
     }
-    .modal-close{
+    #product-modal .modal-close{
       position:absolute;right:16px;top:16px;z-index:5;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.14);
-      background:rgba(7,24,60,.72);color:#fff;font-size:27px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:.2s ease;
+      background:rgba(7,24,60,.72);color:#fff;font-size:27px;line-height:1;cursor:pointer;display:grid;place-items:center;
+      transition:.2s ease;
     }
-    .modal-close:hover{background:#fff;color:#173a7d;transform:rotate(5deg);}
-    .modal-grid{display:grid;grid-template-columns:1fr 1fr;min-height:620px;}
-    .modal-gallery{padding:28px;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.045));}
-    .modal-main-image{
+    #product-modal .modal-close:hover{background:#fff;color:#173a7d;transform:rotate(5deg);}
+    #product-modal .modal-grid{display:grid;grid-template-columns:1fr 1fr;min-height:620px;}
+    #product-modal .modal-gallery{padding:28px;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.045));}
+    #product-modal .modal-main-image{
       position:relative;height:480px;border-radius:24px;overflow:hidden;display:grid;place-items:center;
       background:#f6f8ff;border:1px solid rgba(255,255,255,.55);
     }
-    .modal-main-image img{width:100%;height:100%;object-fit:contain;padding:18px;}
-    .modal-image-placeholder{width:170px;height:320px;border:5px solid #19336d;border-radius:35px;position:relative;}
-    .modal-image-placeholder::before{content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);width:70px;height:12px;border-radius:999px;background:#19336d;}
-    .gallery-arrow{
+    #product-modal .modal-main-image img{width:100%;height:100%;object-fit:contain;padding:18px;}
+    #product-modal .modal-image-placeholder{width:170px;height:320px;border:5px solid #19336d;border-radius:35px;position:relative;}
+    #product-modal .modal-image-placeholder::before{content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);width:70px;height:12px;border-radius:999px;background:#19336d;}
+    #product-modal .gallery-arrow{
       position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;
       background:rgba(13,38,88,.88);color:#fff;font-size:23px;cursor:pointer;display:none;place-items:center;box-shadow:0 10px 24px rgba(0,0,0,.22);
     }
-    .gallery-arrow.show{display:grid;}
-    .gallery-prev{left:12px}.gallery-next{right:12px}
-    .modal-thumbnails{display:flex;gap:10px;margin-top:14px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
-    .modal-thumbnails::-webkit-scrollbar{display:none;}
-    .modal-thumb{width:72px;height:72px;flex:0 0 auto;border-radius:14px;border:2px solid transparent;background:rgba(255,255,255,.10);padding:4px;cursor:pointer;}
-    .modal-thumb.active{border-color:#d0a7df;background:rgba(208,167,223,.14);}
-    .modal-thumb img{width:100%;height:100%;object-fit:cover;border-radius:9px;background:#fff;}
-    .modal-info{padding:38px 36px 34px;display:flex;flex-direction:column;}
-    .modal-condition{display:inline-flex;align-self:flex-start;padding:8px 12px;border-radius:999px;background:rgba(208,167,223,.16);border:1px solid rgba(208,167,223,.24);color:#e0b9eb;font-size:.72rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase;}
-    .modal-title{margin:15px 0 10px;font-size:clamp(2rem,4vw,3rem);line-height:1;letter-spacing:-.045em;color:#fff;}
-    .modal-description{margin:0 0 22px;color:#c7d6f3;line-height:1.75;font-size:.96rem;white-space:pre-line;}
-    .modal-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:24px;}
-    .modal-spec{padding:13px 14px;border-radius:15px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.09);}
-    .modal-spec small{display:block;margin-bottom:5px;color:#9fb4dc;font-size:.67rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase;}
-    .modal-spec strong{color:#fff;font-size:.92rem;}
-    .modal-prices{margin-top:auto;padding-top:20px;border-top:1px solid rgba(255,255,255,.10);}
-    .modal-price-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:9px;}
-    .modal-price-row span{color:#aebfe0;font-size:.82rem;font-weight:750;}
-    .modal-price-row strong{color:#fff;font-size:1.45rem;}
-    .modal-price-row.list strong{font-size:1rem;color:#c6d4ef;font-weight:750;}
-    .modal-whatsapp{margin-top:18px;min-height:54px;width:100%;display:flex;align-items:center;justify-content:center;gap:11px;border-radius:16px;background:#25D366;color:#fff;font-weight:900;box-shadow:0 14px 32px rgba(37,211,102,.22);transition:.22s ease;}
-    .modal-whatsapp:hover{transform:translateY(-2px);box-shadow:0 18px 38px rgba(37,211,102,.30);}
-    .modal-whatsapp svg{width:24px;height:24px;fill:currentColor;}
-    .modal-note{margin:10px 0 0;text-align:center;color:#9fb4dc;font-size:.72rem;}
+    #product-modal .gallery-arrow.show{display:grid;}
+    #product-modal .gallery-prev{left:12px}
+    #product-modal .gallery-next{right:12px}
+    #product-modal .modal-thumbnails{display:flex;gap:10px;margin-top:14px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
+    #product-modal .modal-thumbnails::-webkit-scrollbar{display:none;}
+    #product-modal .modal-thumb{
+      width:72px;height:72px;flex:0 0 auto;border-radius:14px;border:2px solid transparent;background:rgba(255,255,255,.10);padding:4px;cursor:pointer;
+    }
+    #product-modal .modal-thumb.active{border-color:#d0a7df;background:rgba(208,167,223,.14);}
+    #product-modal .modal-thumb img{width:100%;height:100%;object-fit:cover;border-radius:9px;background:#fff;}
+    #product-modal .modal-info{padding:38px 36px 34px;display:flex;flex-direction:column;}
+    #product-modal .modal-condition{display:inline-flex;align-self:flex-start;padding:8px 12px;border-radius:999px;background:rgba(208,167,223,.16);border:1px solid rgba(208,167,223,.24);color:#e0b9eb;font-size:.72rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase;}
+    #product-modal .modal-title{margin:15px 0 10px;font-size:clamp(2rem,4vw,3rem);line-height:1;letter-spacing:-.045em;color:#fff;}
+    #product-modal .modal-description{margin:0 0 22px;color:#c7d6f3;line-height:1.75;font-size:.96rem;white-space:pre-line;}
+    #product-modal .modal-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:24px;}
+    #product-modal .modal-spec{padding:13px 14px;border-radius:15px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.09);}
+    #product-modal .modal-spec small{display:block;margin-bottom:5px;color:#9fb4dc;font-size:.67rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase;}
+    #product-modal .modal-spec strong{color:#fff;font-size:.92rem;}
+    #product-modal .modal-prices{margin-top:auto;padding-top:20px;border-top:1px solid rgba(255,255,255,.10);}
+    #product-modal .modal-price-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:9px;}
+    #product-modal .modal-price-row span{color:#aebfe0;font-size:.82rem;font-weight:750;}
+    #product-modal .modal-price-row strong{color:#fff;font-size:1.45rem;}
+    #product-modal .modal-price-row.list strong{font-size:1rem;color:#c6d4ef;font-weight:750;}
+    #product-modal .modal-whatsapp{
+      margin-top:18px;min-height:54px;width:100%;display:flex;align-items:center;justify-content:center;gap:11px;border-radius:16px;
+      background:#25D366;color:#fff;font-weight:900;box-shadow:0 14px 32px rgba(37,211,102,.22);transition:.22s ease;
+    }
+    #product-modal .modal-whatsapp:hover{transform:translateY(-2px);box-shadow:0 18px 38px rgba(37,211,102,.30);}
+    #product-modal .modal-whatsapp svg{width:24px;height:24px;fill:currentColor;}
+    #product-modal .modal-note{margin:10px 0 0;text-align:center;color:#9fb4dc;font-size:.72rem;}
     body.modal-open{overflow:hidden;}
 
     @media(max-width:820px){
-      .product-modal{padding:10px;align-items:flex-end;}
-      .product-modal-panel{max-height:94vh;border-radius:26px 26px 0 0;}
-      .modal-grid{grid-template-columns:1fr;min-height:0;}
-      .modal-gallery{padding:18px 18px 10px;}
-      .modal-main-image{height:360px;}
-      .modal-info{padding:24px 20px 26px;}
-      .modal-title{font-size:2rem;}
-      .modal-specs{grid-template-columns:1fr 1fr;}
+      #product-modal.product-modal{padding:10px;align-items:flex-end;}
+      #product-modal .product-modal-panel{max-height:94vh;border-radius:26px 26px 0 0;}
+      #product-modal .modal-grid{grid-template-columns:1fr;min-height:0;}
+      #product-modal .modal-gallery{padding:18px 18px 10px;}
+      #product-modal .modal-main-image{height:360px;}
+      #product-modal .modal-info{padding:24px 20px 26px;}
+      #product-modal .modal-title{font-size:2rem;}
+      #product-modal .modal-specs{grid-template-columns:1fr 1fr;}
     }
     @media(max-width:480px){
-      .modal-main-image{height:310px;}
-      .modal-gallery{padding:14px 14px 8px;}
-      .modal-info{padding:20px 16px 24px;}
-      .modal-specs{grid-template-columns:1fr;}
-      .modal-price-row strong{font-size:1.25rem;}
+      #product-modal .modal-main-image{height:310px;}
+      #product-modal .modal-gallery{padding:14px 14px 8px;}
+      #product-modal .modal-info{padding:20px 16px 24px;}
+      #product-modal .modal-specs{grid-template-columns:1fr;}
+      #product-modal .modal-price-row strong{font-size:1.25rem;}
     }
-
 
     /* HERO PREMIUM - responsive */
     @media(max-width:1180px){
@@ -1027,6 +1036,183 @@
     }
 
 </style>
+
+  <style id="home-cards-match-sellados">
+    /* Últimos equipos del HOME: mismo diseño visual que Equipos Sellados */
+    #ultimos-equipos .home-product-card{
+      overflow:hidden;
+      border-radius:27px;
+      background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.065));
+      color:#fff;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 18px 44px rgba(4,16,46,.19);
+      transition:transform .23s ease,border-color .23s ease,box-shadow .23s ease;
+    }
+    #ultimos-equipos .home-product-card:hover{
+      transform:translateY(-6px);
+      border-color:rgba(202,165,220,.38);
+      box-shadow:0 26px 58px rgba(4,16,46,.28);
+    }
+    #ultimos-equipos .home-product-image{
+      position:relative;
+      height:278px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px;
+      overflow:hidden;
+      background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.055));
+      border-bottom:0;
+    }
+    #ultimos-equipos .home-product-image-frame{
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:20px;
+      overflow:hidden;
+      background:linear-gradient(145deg,#f8f9fc,#eef2f8);
+      box-shadow:inset 0 0 0 1px rgba(14,38,87,.06);
+    }
+    #ultimos-equipos .home-product-image-frame img{
+      display:block;
+      width:auto;
+      height:auto;
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;
+      object-position:center;
+      transition:transform .3s ease;
+    }
+    #ultimos-equipos .home-product-card:hover .home-product-image-frame img{transform:scale(1.035);}
+    #ultimos-equipos .home-product-placeholder{
+      width:118px;
+      height:220px;
+      border-radius:26px;
+      border:4px solid rgba(23,58,125,.55);
+      position:relative;
+      box-shadow:0 18px 34px rgba(0,0,0,.10);
+      background:transparent;
+      padding:0;
+      transform:none;
+    }
+    #ultimos-equipos .home-product-placeholder::before{
+      content:"";
+      position:absolute;
+      top:7px;
+      left:50%;
+      transform:translateX(-50%);
+      width:47px;
+      height:9px;
+      border-radius:999px;
+      background:rgba(23,58,125,.55);
+    }
+    #ultimos-equipos .home-product-placeholder span{display:none;}
+    #ultimos-equipos .home-product-badge{
+      position:absolute;
+      left:16px;
+      top:16px;
+      z-index:3;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.96);
+      color:#183a7a;
+      font-size:.68rem;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      box-shadow:0 6px 16px rgba(20,44,96,.12);
+    }
+    #ultimos-equipos .home-product-body{padding:18px 18px 17px;}
+    #ultimos-equipos .home-product-kicker{
+      margin:0;
+      font-size:.68rem;
+      color:#d7afe4;
+      font-weight:850;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+    #ultimos-equipos .home-product-title{
+      margin:7px 0 11px;
+      font-size:1.12rem;
+      line-height:1.26;
+      font-weight:880;
+      color:#fff;
+    }
+    #ultimos-equipos .home-product-specs{
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
+      margin:0 0 16px;
+    }
+    #ultimos-equipos .home-product-spec{
+      padding:6px 9px;
+      border-radius:9px;
+      background:rgba(255,255,255,.085);
+      color:#d0ddf8;
+      font-size:.75rem;
+      font-weight:730;
+    }
+    #ultimos-equipos .home-product-price-row{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      margin:0;
+      padding-top:14px;
+      border-top:1px solid rgba(255,255,255,.09);
+    }
+    #ultimos-equipos .home-product-price small{
+      display:block;
+      color:#a9bde3;
+      font-size:.68rem;
+      text-transform:uppercase;
+      font-weight:800;
+      letter-spacing:.08em;
+      margin:0;
+    }
+    #ultimos-equipos .home-product-price strong{
+      display:block;
+      margin-top:4px;
+      font-size:1.28rem;
+      line-height:normal;
+      color:#fff;
+      font-weight:900;
+    }
+    #ultimos-equipos .home-product-price .home-list-price{
+      margin-top:5px;
+      color:#b7c7e7;
+      font-size:.72rem;
+      letter-spacing:0;
+      text-transform:none;
+      font-weight:650;
+    }
+    #ultimos-equipos .home-product-action{
+      width:46px;
+      height:46px;
+      flex:0 0 46px;
+      display:grid;
+      place-items:center;
+      border-radius:15px;
+      border:1px solid rgba(255,255,255,.16);
+      background:#25D366;
+      color:#fff;
+      box-shadow:0 11px 26px rgba(37,211,102,.25);
+      transition:transform .2s ease,box-shadow .2s ease,filter .2s ease;
+      text-decoration:none;
+    }
+    #ultimos-equipos .home-product-action:hover{
+      transform:translateY(-2px) scale(1.03);
+      box-shadow:0 15px 30px rgba(37,211,102,.34);
+      filter:saturate(1.06);
+    }
+    #ultimos-equipos .home-product-whatsapp-icon{width:24px;height:24px;display:block;}
+    @media(max-width:760px){
+      #ultimos-equipos .home-product-image{height:300px;}
+    }
+  </style>
+
 </head>
 <body>
 
@@ -1292,23 +1478,40 @@
         grid.innerHTML = `<div class="latest-empty"><div class="latest-empty-inner"><div class="latest-empty-icon" aria-hidden="true"><div class="latest-empty-phone"></div></div><h3>Próximamente vas a ver nuestros equipos acá.</h3><p>Todavía no hay equipos publicados. Cuando cargues iPhones desde el administrador, los más recientes aparecerán automáticamente en esta sección.</p></div></div>`;
         return;
       }
+
       grid.innerHTML = latestProducts.slice(0,4).map(product => {
-        const image = product.imagen_1 ? `<img src="${escapeHTML(product.imagen_1)}" alt="${escapeHTML(product.modelo)}" loading="lazy">` : `<div class="home-product-placeholder" aria-hidden="true"><span>MM</span></div>`;
+        const model = product.modelo || 'iPhone';
         const condition = product.categoria === 'sellados' ? 'Sellado' : 'Usado';
-        const url = product.categoria === 'sellados' ? 'equipos-sellados.html' : 'equipos-usados.html';
-        return `<article class="home-product-card" data-product-id="${escapeHTML(product.id)}" tabindex="0" role="button" aria-label="Ver detalles de ${escapeHTML(product.modelo || 'iPhone')}">
-          <div class="home-product-image">${image}<span class="home-product-badge">${condition}</span></div>
+        const image = product.imagen_1
+          ? `<div class="home-product-image-frame"><img src="${escapeHTML(product.imagen_1)}" alt="${escapeHTML(model)}" loading="lazy"></div>`
+          : `<div class="home-product-image-frame"><div class="home-product-placeholder" aria-hidden="true"><span>MM</span></div></div>`;
+
+        const specs = [
+          product.serie ? `<span class="home-product-spec">${escapeHTML(product.serie)}</span>` : '',
+          product.memoria ? `<span class="home-product-spec">${escapeHTML(product.memoria)}</span>` : '',
+          product.color ? `<span class="home-product-spec">${escapeHTML(product.color)}</span>` : '',
+          product.categoria === 'usados' && product.estado_bateria !== null && product.estado_bateria !== undefined
+            ? `<span class="home-product-spec">Batería ${escapeHTML(product.estado_bateria)}%</span>` : ''
+        ].join('');
+
+        const whatsappMessage = `Hola MM Electrónica, quisiera consultar por el ${model}${product.memoria ? ` de ${product.memoria}` : ''}${product.color ? ` color ${product.color}` : ''}.`;
+        const whatsappUrl = `https://wa.me/${MM_WHATSAPP}?text=${encodeURIComponent(whatsappMessage)}`;
+
+        return `<article class="home-product-card" data-product-id="${escapeHTML(product.id)}" tabindex="0" role="button" aria-label="Ver detalles de ${escapeHTML(model)}">
+          <div class="home-product-image">${image}<span class="home-product-badge">${escapeHTML(condition)}</span></div>
           <div class="home-product-body">
-            <div class="home-product-kicker">Apple iPhone</div>
-            <h3 class="home-product-title">${escapeHTML(product.modelo || 'iPhone')}</h3>
-            <div class="home-product-specs">
-              ${product.memoria ? `<span class="home-product-spec">${escapeHTML(product.memoria)}</span>` : ''}
-              ${product.color ? `<span class="home-product-spec">${escapeHTML(product.color)}</span>` : ''}
-              ${product.categoria === 'usados' && product.estado_bateria !== null ? `<span class="home-product-spec">Batería ${escapeHTML(product.estado_bateria)}%</span>` : ''}
-            </div>
+            <div class="home-product-kicker">MM Electrónica</div>
+            <h3 class="home-product-title">${escapeHTML(model)}</h3>
+            ${specs ? `<div class="home-product-specs">${specs}</div>` : ''}
             <div class="home-product-price-row">
-              <div class="home-product-price"><small>Contado</small><strong>${money(product.precio_contado)}</strong></div>
-              <button type="button" class="home-product-action" aria-label="Ver detalles de ${escapeHTML(product.modelo || 'iPhone')}">→</button>
+              <div class="home-product-price">
+                <small>Contado</small>
+                <strong>${money(product.precio_contado)}</strong>
+                ${product.precio_lista !== null && product.precio_lista !== undefined ? `<small class="home-list-price">Lista: ${money(product.precio_lista)}</small>` : ''}
+              </div>
+              <a href="${whatsappUrl}" class="home-product-action" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" aria-label="Consultar por WhatsApp sobre ${escapeHTML(model)}" title="Consultar por WhatsApp">
+                <svg class="home-product-whatsapp-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.966-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.693.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.99c-.003 5.45-4.437 9.884-9.885 9.889m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.893c0 2.096.547 4.14 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+              </a>
             </div>
           </div>
         </article>`;
@@ -1410,7 +1613,7 @@
       modalImages = productImages(product);
       modalImageIndex = 0;
 
-      modalCondition.textContent = product.categoria === 'sellados' ? 'Equipo Sellado' : 'Equipo Usado';
+      modalCondition.textContent = product.categoria === 'sellados' ? 'Sellado' : 'Usado';
       modalTitle.textContent = product.modelo || 'iPhone';
       modalDescription.textContent = product.descripcion || 'Consultanos por disponibilidad, estado y formas de pago.';
 
