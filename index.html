@@ -1327,8 +1327,10 @@
   .hero-copy{font-size:.95rem!important;line-height:1.6!important;max-width:36rem!important;}
   .hero-actions{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;margin-top:22px!important;}
   .btn-primary,.btn-secondary{width:100%!important;min-height:54px!important;border-radius:16px!important;padding:0 16px!important;}
+  /* En móvil ocultamos el bloque secundario de beneficios y accesos visuales para mantener el Home más limpio. */
+  .hero-trust,.showcase{display:none!important;}
   .hero-trust{
-    display:flex!important;gap:10px!important;max-width:none!important;margin:24px -16px 0!important;
+    display:none!important;gap:10px!important;max-width:none!important;margin:24px -16px 0!important;
     padding:0 16px 8px!important;overflow-x:auto!important;scroll-snap-type:x mandatory!important;
     scrollbar-width:none!important;-webkit-overflow-scrolling:touch!important;
   }
