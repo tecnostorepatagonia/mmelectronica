@@ -377,9 +377,6 @@
     .product-name{margin:7px 0 11px;font-size:1.12rem;line-height:1.26;font-weight:880;color:#fff;}
     .product-meta{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;}
     .product-meta span{padding:6px 9px;border-radius:9px;background:rgba(255,255,255,.085);color:#d0ddf8;font-size:.75rem;font-weight:730;}
-    .product-meta .battery-chip{display:inline-flex;align-items:center;gap:6px;}
-    .product-meta .battery-chip svg{width:14px;height:14px;flex:none;color:#9ee37d;}
-
     .product-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding-top:14px;border-top:1px solid rgba(255,255,255,.09);}
     .product-price small{display:block;color:#a9bde3;font-size:.68rem;text-transform:uppercase;font-weight:800;letter-spacing:.08em;}
     .product-price strong{display:block;margin-top:4px;font-size:1.28rem;color:#fff;}
@@ -474,9 +471,6 @@
     .modal-spec{padding:13px 14px;border-radius:15px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.09);}
     .modal-spec small{display:block;margin-bottom:5px;color:#9fb4dc;font-size:.67rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase;}
     .modal-spec strong{color:#fff;font-size:.92rem;}
-    .modal-spec .spec-value-inline{display:inline-flex;align-items:center;gap:8px;}
-    .modal-spec .spec-value-inline svg{width:18px;height:18px;flex:none;color:#9ee37d;}
-
     .modal-prices{margin-top:auto;padding-top:20px;border-top:1px solid rgba(255,255,255,.10);}
     .modal-price-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:9px;}
     .modal-price-row span{color:#aebfe0;font-size:.82rem;font-weight:750;}
@@ -872,7 +866,7 @@
         detailSpec('Serie', product.serie),
         detailSpec('Memoria', product.memoria || product.capacity),
         detailSpec('Color', product.color),
-        PAGE_CATEGORY === 'usados' ? batteryDetailSpec('Estado de batería', `${product.estado_bateria ?? product.battery ?? 100}%`) : '',
+        PAGE_CATEGORY === 'usados' ? detailSpec('Estado de batería', `${product.estado_bateria ?? product.battery ?? 100}%`) : '',
         PAGE_CATEGORY === 'sellados' && product.estado_bateria !== null && product.estado_bateria !== undefined ? detailSpec('Batería', `${product.estado_bateria}%`) : ''
       ].join('');
 
@@ -973,7 +967,7 @@
         const image = p.image ? `<div class="product-image-frame"><img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" loading="lazy"></div>` : `<div class="product-image-frame"><div class="product-placeholder" aria-hidden="true"></div></div>`;
         const meta = PAGE_CATEGORY === 'accesorios'
           ? ''
-          : `${p.serie ? `<span>${escapeHTML(p.serie)}</span>` : ''}${p.capacity ? `<span>${escapeHTML(p.capacity)}</span>` : ''}${p.color ? `<span>${escapeHTML(p.color)}</span>` : ''}${PAGE_CATEGORY === 'usados' && p.battery !== null && p.battery !== undefined ? batteryMeta(p.battery) : ''}`;
+          : `${p.serie ? `<span>${escapeHTML(p.serie)}</span>` : ''}${p.capacity ? `<span>${escapeHTML(p.capacity)}</span>` : ''}${p.color ? `<span>${escapeHTML(p.color)}</span>` : ''}${PAGE_CATEGORY === 'usados' && p.battery !== null && p.battery !== undefined ? `<span>Batería ${escapeHTML(p.battery)}%</span>` : ''}`;
 
         const prices = PAGE_CATEGORY === 'accesorios'
           ? `<small>Precio</small><strong>${money(p.precio)}</strong>`
