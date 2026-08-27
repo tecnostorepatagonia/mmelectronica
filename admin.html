@@ -219,7 +219,6 @@ tbody tr:hover{background:rgba(255,255,255,.035)}
             <div class="field"><label>Color *</label><input id="color" class="input" placeholder="Ej: Titanio Natural"></div>
             <div class="field"><label>Estado de batería</label><input id="estado_bateria" class="input" type="number" min="0" max="100" placeholder="100"><small>Si queda vacío se guarda 100%.</small></div>
             <div class="field"><label>Precio contado *</label><input id="precio_contado" class="input" type="number" min="0" step="0.01" placeholder="0"></div>
-            <div class="field"><label>Precio lista *</label><input id="precio_lista" class="input" type="number" min="0" step="0.01" placeholder="0"></div>
             <div class="field full"><label>Descripción</label><textarea id="descripcion_phone" class="textarea" placeholder="Características, condición, garantía, detalles, etc."></textarea></div>
             <div class="field full">
               <label>Imágenes del equipo</label><small>Solo se permiten archivos en formato .webp.</small>
@@ -484,7 +483,6 @@ function validateForm(){
     if(!$('memoria').value) return 'Elegí la memoria.';
     if(!$('color').value.trim()) return 'Ingresá el color.';
     if(!$('precio_contado').value) return 'Ingresá el precio contado.';
-    if(!$('precio_lista').value) return 'Ingresá el precio lista.';
     const bat=$('estado_bateria').value;
     if(bat!=='' && (Number(bat)<0 || Number(bat)>100)) return 'El estado de batería debe estar entre 0 y 100.';
     if(!editingId && !$('phone_image_1').files?.[0]) return 'La Imagen 1 es obligatoria.';
@@ -535,7 +533,7 @@ function buildBasePayload(){
     estado_bateria:$('estado_bateria').value===''?100:Number($('estado_bateria').value),
     descripcion:$('descripcion_phone').value.trim() || null,
     precio_contado:Number($('precio_contado').value),
-    precio_lista:Number($('precio_lista').value),
+    precio_lista:Number($('precio_contado').value),
     precio:null
   };
 }
@@ -593,7 +591,7 @@ function editProduct(id){
     setPreview('preview-accessory-1',p.imagen_1);setPreview('preview-accessory-2',p.imagen_2);
   }else{
     $('serie').value=p.serie||'';$('modelo').value=p.modelo||'';$('memoria').value=p.memoria||'';$('color').value=p.color||'';
-    $('estado_bateria').value=p.estado_bateria??100;$('descripcion_phone').value=p.descripcion||'';$('precio_contado').value=p.precio_contado??'';$('precio_lista').value=p.precio_lista??'';
+    $('estado_bateria').value=p.estado_bateria??100;$('descripcion_phone').value=p.descripcion||'';$('precio_contado').value=p.precio_contado??'';
     for(let i=1;i<=4;i++)setPreview(`preview-phone-${i}`,p[`imagen_${i}`]);
   }
   $('form-title').textContent='Editar producto';
@@ -647,7 +645,7 @@ function renderList(){
   list.forEach(p=>{
     const title=p.categoria==='accesorios'?(p.nombre||'Accesorio'):(p.modelo||'Equipo');
     const detail=p.categoria==='accesorios'?'—':[p.serie,p.memoria,p.color,p.estado_bateria!=null?`${p.estado_bateria}% batería`:null].filter(Boolean).join(' · ');
-    const price=p.categoria==='accesorios'?money(p.precio):`${money(p.precio_contado)} / Lista ${money(p.precio_lista)}`;
+    const price=p.categoria==='accesorios'?money(p.precio):money(p.precio_contado);
     const tr=document.createElement('tr');
     tr.innerHTML=`
       <td>${p.imagen_1?`<img class="thumb" src="${escapeHtml(p.imagen_1)}" alt="">`:'—'}</td>
