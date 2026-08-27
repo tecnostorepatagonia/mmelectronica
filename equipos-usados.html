@@ -1059,7 +1059,6 @@
 
       modalPrices.innerHTML = `
         <div class="modal-price-row"><span>Precio contado</span><strong>${money(product.precio_contado)}</strong></div>
-        ${product.precio_lista !== null && product.precio_lista !== undefined ? `<div class="modal-price-row list"><span>Precio lista</span><strong>${money(product.precio_lista)}</strong></div>` : ''}
       `;
 
       const message = `Hola MM Electrónica, quisiera consultar si está disponible el ${product.name || product.modelo || 'iPhone'}${product.memoria ? ` de ${product.memoria}` : ''}${product.color ? ` color ${product.color}` : ''}.`;
@@ -1158,7 +1157,7 @@
 
         const prices = PAGE_CATEGORY === 'accesorios'
           ? `<small>Precio</small><strong>${money(p.precio)}</strong>`
-          : `<small>Contado</small><strong>${money(p.precio_contado)}</strong>${p.precio_lista !== null ? `<small class="list-price">Lista: ${money(p.precio_lista)}</small>` : ''}`;
+          : `<small>Contado</small><strong>${money(p.precio_contado)}</strong>`;
 
         return `<article class="product-card" data-product-id="${escapeHTML(p.id)}" tabindex="0" role="button" aria-label="Ver detalles de ${escapeHTML(p.name)}">
           <div class="product-image">${image}<span class="product-badge">${escapeHTML(p.condition)}</span></div>
